@@ -217,6 +217,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3954183459775006006, guid: 3081a5d150ff8b446b355af827f50fde, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4413491533130074750, guid: 3081a5d150ff8b446b355af827f50fde, type: 3}
+      propertyPath: cooldown
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4413491533130074750, guid: 3081a5d150ff8b446b355af827f50fde, type: 3}
+      propertyPath: offsetDistance
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6509762001698211879, guid: 3081a5d150ff8b446b355af827f50fde, type: 3}
       propertyPath: m_RootOrder
       value: 1

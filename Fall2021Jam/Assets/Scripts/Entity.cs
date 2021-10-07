@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Entity : MonoBehaviour
+public abstract class Entity : MonoBehaviour
 {
-    private float health;
+    [SerializeField] private float health;
     private bool isAlive;
+
     public void setHealth(float health)
     {
         this.health = health;
@@ -14,4 +15,5 @@ public class Entity : MonoBehaviour
     {
         return health;
     }
+    public virtual void applyHit(float damage, Vector3 vector){}
 }
