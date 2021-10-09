@@ -17,16 +17,19 @@ public class DummyEnemy : Entity
         rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        base.FixedUpdate();
         // every 3 seconds, randoly choose a direction to move in
         if (countdown > 0) countdown -= Time.deltaTime;
         else {
             countdown = cycleLength;
             dirVect = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), 0).normalized;
         }
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
         rb.MovePosition(rb.transform.position + dirVect * baseMoveSpeed * Time.deltaTime);
     }
 }
