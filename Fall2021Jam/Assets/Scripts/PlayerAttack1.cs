@@ -29,7 +29,7 @@ public class PlayerAttack1 : MonoBehaviour
             curCooldown = cooldown;
         }
     }
-    public void FixedUpdate()
+    public void FIxedUpdate()
     {
         if (curCooldown>0)
         {   

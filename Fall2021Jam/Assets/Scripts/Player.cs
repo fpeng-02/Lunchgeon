@@ -20,9 +20,9 @@ public class Player : Entity
     }
 
     // Update is called once per frame
-    public override void FixedUpdate()
+    public override void Update()
     {
-        base.FixedUpdate();
+        base.Update();
         //Attacks
         if (Input.GetKey(KeyCode.Mouse0)) {
             atk1.attack();
@@ -32,6 +32,10 @@ public class Player : Entity
         h = Input.GetAxisRaw("Horizontal");
         v = Input.GetAxisRaw("Vertical");
         dirVect = (new Vector3(h, v, 0)).normalized;
+    }
+    public void FixedUpdate()
+    {
         rb.MovePosition(rb.transform.position + dirVect * baseMoveSpeed * Time.deltaTime);
+
     }
 }

@@ -17,8 +17,10 @@ public class DummyEnemy : Entity
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    // Update is called once per frame
+    public override void Update()
     {
+        base.Update();
         // every 3 seconds, randoly choose a direction to move in
         if (countdown > 0) countdown -= Time.deltaTime;
         else {
@@ -27,8 +29,7 @@ public class DummyEnemy : Entity
         }
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    public void FixedUpdate()
     {
         rb.MovePosition(rb.transform.position + dirVect * baseMoveSpeed * Time.deltaTime);
     }

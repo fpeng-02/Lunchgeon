@@ -23,7 +23,7 @@ public abstract class Entity : MonoBehaviour
         //Debug.Log(health);
     }
 
-    public virtual void FixedUpdate()
+    public virtual void Update()
     {
         if (health <= 0)
         {
