@@ -5,7 +5,7 @@ using UnityEngine;
 public class DummyEnemy : Entity
 {
     [SerializeField] private float cycleLength = 1.0f;
-    [SerializeField] private float baseMoveSpeed = 5.0f;
+    [SerializeField] private float baseMoveSpeed = 3.0f;
     private float countdown;
     private Vector3 dirVect;
     private Rigidbody2D rb;
@@ -18,7 +18,7 @@ public class DummyEnemy : Entity
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         base.FixedUpdate();
         // every 3 seconds, randoly choose a direction to move in
