@@ -18,7 +18,9 @@ public abstract class Entity : MonoBehaviour
     }
     public virtual void applyHit(float damage, Vector3 vector)
     {
+        Debug.Log("Hit Recieved!");
         health -= damage;
+        Debug.Log(health);
     }
 
     public virtual void FixedUpdate()

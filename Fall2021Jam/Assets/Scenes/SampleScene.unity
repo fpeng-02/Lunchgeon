@@ -283,6 +283,10 @@ PrefabInstance:
       propertyPath: offsetDistance
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5714775178210010853, guid: 3081a5d150ff8b446b355af827f50fde, type: 3}
+      propertyPath: health
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6509762001698211879, guid: 3081a5d150ff8b446b355af827f50fde, type: 3}
       propertyPath: m_RootOrder
       value: 1

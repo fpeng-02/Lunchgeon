@@ -20,6 +20,7 @@ public class DummyEnemy : Entity
     // Update is called once per frame
     void Update()
     {
+        base.FixedUpdate();
         // every 3 seconds, randoly choose a direction to move in
         if (countdown > 0) countdown -= Time.deltaTime;
         else {
