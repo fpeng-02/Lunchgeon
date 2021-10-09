@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Entity
 {
     [SerializeField] private float baseMoveSpeed = 4;
     private float h;
@@ -20,8 +20,9 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
-    public void FixedUpdate()
+    public override void FixedUpdate()
     {
+        base.FixedUpdate();
         //Attacks
         if (Input.GetKey(KeyCode.Mouse0)) {
             atk1.attack();

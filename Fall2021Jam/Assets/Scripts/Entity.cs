@@ -16,4 +16,12 @@ public abstract class Entity : MonoBehaviour
         return health;
     }
     public virtual void applyHit(float damage, Vector3 vector){}
+
+    public virtual void FixedUpdate()
+    {
+        if (health <= 0)
+        {
+            Destroy(this.gameObject);
+        }
+    }
 }
