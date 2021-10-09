@@ -36,6 +36,5 @@ public class Player : Entity
     public void FixedUpdate()
     {
         rb.MovePosition(rb.transform.position + dirVect * baseMoveSpeed * Time.deltaTime);
-
     }
 }

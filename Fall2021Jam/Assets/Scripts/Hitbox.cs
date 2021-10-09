@@ -6,7 +6,7 @@ public class Hitbox : MonoBehaviour
 {
     [SerializeField] private float duration;
     [SerializeField] private float damage;
-    [SerializeField] private Vector3 knock;
+    [SerializeField] private float knock;
 
     public float getDamage()
     {
@@ -16,7 +16,7 @@ public class Hitbox : MonoBehaviour
     {
         return duration;
     }
-    public Vector3 getKnock()
+    public float getKnock()
     {
         return knock;
     }

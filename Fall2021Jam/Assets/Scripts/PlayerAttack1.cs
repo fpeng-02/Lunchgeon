@@ -23,13 +23,14 @@ public class PlayerAttack1 : MonoBehaviour
             float attackRotation = Mathf.Atan2(shootDirection.y, shootDirection.x);
             attackRotation = Mathf.Rad2Deg * attackRotation;
             //initialize new gameobject
-            GameObject newAttack = Instantiate(attackObject, transform.position + shootDirection * offsetDistance, Quaternion.Euler(0, 0, attackRotation - 90));
+            Debug.Log("Instantiate 4Head");
+            GameObject newAttack = Instantiate(attackObject, transform.position + shootDirection * offsetDistance, Quaternion.Euler(0, 0, attackRotation - 90), this.transform);
             
             //put the attack on cooldown
             curCooldown = cooldown;
         }
     }
-    public void FIxedUpdate()
+    public void FixedUpdate()
     {
         if (curCooldown>0)
         {   
