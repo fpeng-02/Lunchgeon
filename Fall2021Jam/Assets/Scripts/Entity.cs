@@ -6,6 +6,7 @@ public abstract class Entity : MonoBehaviour
 {
     [SerializeField] private float health;
     private bool isAlive;
+    //knockback multiplier
 
     public void setHealth(float health)
     {
@@ -15,7 +16,10 @@ public abstract class Entity : MonoBehaviour
     {
         return health;
     }
-    public virtual void applyHit(float damage, Vector3 vector){}
+    public virtual void applyHit(float damage, Vector3 vector)
+    {
+        health -= damage;
+    }
 
     public virtual void FixedUpdate()
     {
