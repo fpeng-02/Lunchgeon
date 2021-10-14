@@ -13,7 +13,7 @@ public class DummyEnemy : Entity
 
     void Start()
     {
-        setState(State.Regular);
+        SetState(State.Regular);
         countdown = -1;
         rb = GetComponent<Rigidbody2D>();
     }
@@ -35,27 +35,25 @@ public class DummyEnemy : Entity
     }
     public void FixedUpdate()
     {
-        switch (getState()){
+        switch (GetState()){
             case State.Stunned:
                 break;
             case State.Knocked:
                 if (rb.velocity.magnitude < 1.0f)
                 {
-                    setState(State.Regular);
+                    SetState(State.Regular);
                 }
                 break;
             default:
                 rb.MovePosition(rb.transform.position + dirVect * baseMoveSpeed * Time.deltaTime);
                 break;
-
         }
-
     }
 
-    public override void applyHit(float damage, Vector3 vector)
+    public override void ApplyHit(float damage, Vector3 vector)
     {
-        base.applyHit(damage, vector);
-        setState(State.Knocked);
+        base.ApplyHit(damage, vector);
+        SetState(State.Knocked);
     }
 
     public override void Die()
