@@ -5,10 +5,11 @@ using UnityEngine;
 public class DummyEnemy : Enemy
 {
     [SerializeField] private float cycleLength = 1.0f;
-    [SerializeField] private float baseMoveSpeed = 3.0f;
+    [SerializeField] private float baseMoveSpeed = 0.5f;
     private float countdown;
     private Vector3 dirVect;
     private Rigidbody2D rb;
+    private Transform playerTransform;
 
 
     void Start()
@@ -16,17 +17,24 @@ public class DummyEnemy : Enemy
         SetState(State.Regular);
         countdown = -1;
         rb = GetComponent<Rigidbody2D>();
+        playerTransform = GameObject.Find("Player").transform;
     }
 
     public override void Update()
     {
         base.Update();
-        // every 3 seconds, randoly choose a direction to move in
+        /* every 3 seconds, randoly choose a direction to move in
         if (countdown > 0) countdown -= Time.deltaTime;
         else {
             countdown = cycleLength;
             dirVect = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), 0).normalized;
         }
+        */
+        dirVect = playerTransform.position - this.transform.position;
+        dirVect.z = 0;
+        dirVect = Vector3.Normalize(dirVect);
+        
+
     }
     public void FixedUpdate()
     {
