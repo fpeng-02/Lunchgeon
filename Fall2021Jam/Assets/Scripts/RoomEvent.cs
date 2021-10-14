@@ -21,7 +21,7 @@ public class RoomEvent : MonoBehaviour
     {
         // Replace this with something more modular
         GameObject go = Instantiate(enemy, this.transform);
-        go.GetComponent<DummyEnemy>().SetRoomEvent(this);
+        go.GetComponent<Enemy>().SetRoomEvent(this);
         roomProgress = 1;
 
         // Close doors

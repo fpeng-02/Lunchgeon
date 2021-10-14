@@ -2,25 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DummyEnemy : Entity
+public class DummyEnemy : Enemy
 {
     [SerializeField] private float cycleLength = 1.0f;
     [SerializeField] private float baseMoveSpeed = 3.0f;
     private float countdown;
     private Vector3 dirVect;
     private Rigidbody2D rb;
-    private RoomEvent roomEvent;
+
 
     void Start()
     {
         SetState(State.Regular);
         countdown = -1;
         rb = GetComponent<Rigidbody2D>();
-    }
-
-    public void SetRoomEvent(RoomEvent re)
-    {
-        this.roomEvent = re;
     }
 
     public override void Update()
@@ -39,10 +34,7 @@ public class DummyEnemy : Entity
             case State.Stunned:
                 break;
             case State.Knocked:
-                if (rb.velocity.magnitude < 1.0f)
-                {
-                    SetState(State.Regular);
-                }
+                if (rb.velocity.magnitude < 1.0f) SetState(State.Regular);
                 break;
             default:
                 rb.MovePosition(rb.transform.position + dirVect * baseMoveSpeed * Time.deltaTime);
@@ -54,11 +46,5 @@ public class DummyEnemy : Entity
     {
         base.ApplyHit(damage, vector);
         SetState(State.Knocked);
-    }
-
-    public override void Die()
-    {
-        roomEvent.ProgressRoom();
-        base.Die();
     }
 }
