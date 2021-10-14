@@ -9,15 +9,19 @@ public class DummyEnemy : Entity
     private float countdown;
     private Vector3 dirVect;
     private Rigidbody2D rb;
+    private RoomEvent roomEvent;
 
-    // Start is called before the first frame update
     void Start()
     {
         countdown = -1;
         rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
+    public void SetRoomEvent(RoomEvent re)
+    {
+        this.roomEvent = re;
+    }
+
     public override void Update()
     {
         base.Update();
@@ -31,5 +35,11 @@ public class DummyEnemy : Entity
     public void FixedUpdate()
     {
         //rb.MovePosition(rb.transform.position + dirVect * baseMoveSpeed * Time.deltaTime);
+    }
+
+    public override void Die()
+    {
+        roomEvent.ProgressRoom();
+        base.Die();
     }
 }

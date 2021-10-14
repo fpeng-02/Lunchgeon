@@ -18,7 +18,7 @@ public class PlayerSlash : Hitbox
             {
                 Vector3 knock = getKnock() * Vector3.Normalize(hitColliders[i].gameObject.transform.position - transform.parent.transform.position);
                 //Debug.Log("Hit Sent!");
-                hitColliders[i].gameObject.GetComponent<Entity>().applyHit(getDamage(), knock);
+                hitColliders[i].gameObject.GetComponent<Entity>().ApplyHit(getDamage(), knock);
             }
             i++;
         }

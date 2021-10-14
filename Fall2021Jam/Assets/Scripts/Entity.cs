@@ -8,15 +8,15 @@ public abstract class Entity : MonoBehaviour
     private bool isAlive;
     //knockback multiplier
 
-    public void setHealth(float health)
+    public void SetHealth(float health)
     {
         this.health = health;
     }
-    public float getHealth()
+    public float GetHealth()
     {
         return health;
     }
-    public virtual void applyHit(float damage, Vector3 vector)
+    public virtual void ApplyHit(float damage, Vector3 vector)
     {
         //Debug.Log("Hit Recieved!");
         health -= damage;
@@ -27,9 +27,11 @@ public abstract class Entity : MonoBehaviour
 
     public virtual void Update()
     {
-        if (health <= 0)
-        {
-            Destroy(this.gameObject);
-        }
+        if (health <= 0) Die();
+    }
+
+    public virtual void Die()
+    {
+        Destroy(this.gameObject);
     }
 }
