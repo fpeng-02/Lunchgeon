@@ -8,6 +8,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float xmax;
     [SerializeField] private float ymin;
     [SerializeField] private float ymax;
+    [SerializeField] private RoomEvent re; // debug
 
     // This value is used to constrain the spawn box a bit more; it makes it easy to input the x/y coords for the walls directly into min/max rather than doing subtraction
     [SerializeField] private float pad;
@@ -33,10 +34,15 @@ public class EnemySpawner : MonoBehaviour
         // spawn 4 dudes; treat the chosen point as the center of the 4.
 
         Vector3 randomPoint = new Vector3(Random.Range(xmin + pad, xmax - pad), Random.Range(ymin + pad, ymax - pad), 0);
-        Instantiate(toSpawn, randomPoint + new Vector3(offset, offset, 0), Quaternion.identity);
-        Instantiate(toSpawn, randomPoint + new Vector3(offset, -offset, 0), Quaternion.identity);
-        Instantiate(toSpawn, randomPoint + new Vector3(-offset, offset, 0), Quaternion.identity);
-        Instantiate(toSpawn, randomPoint + new Vector3(-offset, -offset, 0), Quaternion.identity);
+        GameObject go;
+        go = Instantiate(toSpawn, randomPoint + new Vector3(offset, offset, 0), Quaternion.identity);
+        go.GetComponent<Enemy>().SetRoomEvent(re);
+        go = Instantiate(toSpawn, randomPoint + new Vector3(offset, -offset, 0), Quaternion.identity);
+        go.GetComponent<Enemy>().SetRoomEvent(re);
+        go = Instantiate(toSpawn, randomPoint + new Vector3(-offset, offset, 0), Quaternion.identity);
+        go.GetComponent<Enemy>().SetRoomEvent(re);
+        go = Instantiate(toSpawn, randomPoint + new Vector3(-offset, -offset, 0), Quaternion.identity);
+        go.GetComponent<Enemy>().SetRoomEvent(re);
     }
 
     // Start is called before the first frame update

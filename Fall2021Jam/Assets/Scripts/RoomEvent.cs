@@ -10,6 +10,9 @@ public class RoomEvent : MonoBehaviour
     [SerializeField] private List<GameObject> doors;
     [SerializeField] private List<GameObject> roomTriggers;
 
+    // Should only be used for debugging things
+    public void SetProgress(int newProg) { this.roomProgress = newProg;  }
+
     public void Start()
     {
         foreach (GameObject door in doors) {
