@@ -9,7 +9,7 @@ public class Player : Entity
     private float v;
     private Vector3 dirVect;
     private Rigidbody2D rb;
-    [SerializeField] private PlayerAttack1 atk1;
+    [SerializeField] private Attack atk1;
     
 
 
@@ -35,6 +35,22 @@ public class Player : Entity
     }
     public void FixedUpdate()
     {
-        rb.MovePosition(rb.transform.position + dirVect * baseMoveSpeed * Time.deltaTime);
+        switch (GetState())
+        {
+            case State.Stunned:
+                break;
+            case State.Knocked:
+                if (rb.velocity.magnitude < 1.0f) SetState(State.Regular);
+                break;
+            default:
+                rb.MovePosition(rb.transform.position + dirVect * baseMoveSpeed * Time.deltaTime);
+                break;
+        }
+    }
+
+    public override void ApplyHit(float damage, Vector3 vector)
+    {
+        base.ApplyHit(damage, vector);
+        SetState(State.Knocked);
     }
 }

@@ -10,6 +10,12 @@ public class DummyEnemy : Enemy
     private Vector3 dirVect;
     private Rigidbody2D rb;
     private Transform playerTransform;
+    [SerializeField] private Attack atk1;
+
+
+
+    [SerializeField] private float attackPause = 1f;
+    private float attackTimer;
 
 
     void Start()
@@ -18,6 +24,8 @@ public class DummyEnemy : Enemy
         countdown = -1;
         rb = GetComponent<Rigidbody2D>();
         playerTransform = GameObject.Find("Player").transform;
+
+        attackTimer = attackPause;
     }
 
     public override void Update()
@@ -32,6 +40,10 @@ public class DummyEnemy : Enemy
         */
         dirVect = playerTransform.position - this.transform.position;
         dirVect.z = 0;
+        if (dirVect.magnitude < 2.0)
+        {
+            SetState(State.Attacking);
+        }
         dirVect = Vector3.Normalize(dirVect);
         
 
@@ -44,6 +56,22 @@ public class DummyEnemy : Enemy
             case State.Knocked:
                 if (rb.velocity.magnitude < 1.0f) SetState(State.Regular);
                 break;
+            case State.Attacking:
+                if (attackTimer < 0.5)
+                {
+                    
+                    atk1.attack();
+                }
+                if (attackTimer <= 0)
+                {
+                    attackTimer = attackPause;
+                    SetState(State.Regular);
+                }
+                else
+                {
+                    attackTimer = attackTimer - Time.deltaTime;
+                }
+                break; 
             default:
                 rb.MovePosition(rb.transform.position + dirVect * baseMoveSpeed * Time.deltaTime);
                 break;

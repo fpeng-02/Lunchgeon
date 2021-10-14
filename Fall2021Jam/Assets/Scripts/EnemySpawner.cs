@@ -37,12 +37,14 @@ public class EnemySpawner : MonoBehaviour
         GameObject go;
         go = Instantiate(toSpawn, randomPoint + new Vector3(offset, offset, 0), Quaternion.identity);
         go.GetComponent<Enemy>().SetRoomEvent(re);
+        /*
         go = Instantiate(toSpawn, randomPoint + new Vector3(offset, -offset, 0), Quaternion.identity);
         go.GetComponent<Enemy>().SetRoomEvent(re);
         go = Instantiate(toSpawn, randomPoint + new Vector3(-offset, offset, 0), Quaternion.identity);
         go.GetComponent<Enemy>().SetRoomEvent(re);
         go = Instantiate(toSpawn, randomPoint + new Vector3(-offset, -offset, 0), Quaternion.identity);
         go.GetComponent<Enemy>().SetRoomEvent(re);
+        */
     }
 
     // Start is called before the first frame update

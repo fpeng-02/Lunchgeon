@@ -2,11 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum State
+public class Attack : MonoBehaviour
 {
-    Regular,
-    Stunned,
-    Knocked,
-    Attacking
-
+    public virtual void attack() { }
 }
