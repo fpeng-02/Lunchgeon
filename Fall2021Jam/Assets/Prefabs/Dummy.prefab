@@ -98,8 +98,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 20
-  cycleLength: 2
-  baseMoveSpeed: 5
+  cycleLength: 1
+  baseMoveSpeed: 3
 --- !u!50 &5854570863233815342
 Rigidbody2D:
   serializedVersion: 4

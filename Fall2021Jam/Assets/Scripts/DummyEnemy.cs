@@ -13,6 +13,7 @@ public class DummyEnemy : Entity
     // Start is called before the first frame update
     void Start()
     {
+        setState(State.Regular);
         countdown = -1;
         rb = GetComponent<Rigidbody2D>();
     }
@@ -30,6 +31,26 @@ public class DummyEnemy : Entity
     }
     public void FixedUpdate()
     {
-        //rb.MovePosition(rb.transform.position + dirVect * baseMoveSpeed * Time.deltaTime);
+        switch (getState()){
+            case State.Stunned:
+                break;
+            case State.Knocked:
+                if (rb.velocity.magnitude < 1.0f)
+                {
+                    setState(State.Regular);
+                }
+                break;
+            default:
+                rb.MovePosition(rb.transform.position + dirVect * baseMoveSpeed * Time.deltaTime);
+                break;
+
+        }
+
+    }
+
+    public override void applyHit(float damage, Vector3 vector)
+    {
+        base.applyHit(damage, vector);
+        setState(State.Knocked);
     }
 }
