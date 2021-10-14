@@ -5,17 +5,16 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour
 {
     [SerializeField] private float health;
-    private bool isAlive;
+    private bool isAlive = true;
+    private State currState;
+
     //knockback multiplier
 
-    public void SetHealth(float health)
-    {
-        this.health = health;
-    }
-    public float GetHealth()
-    {
-        return health;
-    }
+    public void SetHealth(float health) {this.health = health;}
+    public float GetHealth() {return health;}
+    public void SetState(State currState) { this.currState = currState; }
+    public State GetState() { return currState; }
+
     public virtual void ApplyHit(float damage, Vector3 vector)
     {
         //Debug.Log("Hit Recieved!");
@@ -35,3 +34,7 @@ public abstract class Entity : MonoBehaviour
         Destroy(this.gameObject);
     }
 }
+
+
+//TODO: Implement states, (make an IENUM), add state for stunned when knockback (player cant input movement and enemies can't change their pathing). Knockback state ends
+//when velocity from knockback goes under a certain speed (knock ends).
