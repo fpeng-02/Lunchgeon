@@ -19,8 +19,9 @@ public class BoundedCamera : MonoBehaviour
         player = GameObject.Find("Player");
     }
 
-    void Update()
+    void FixedUpdate()
     {
+        
         prevx = this.transform.position.x;
         prevy = this.transform.position.y;
         newx = this.transform.position.x;
@@ -28,15 +29,15 @@ public class BoundedCamera : MonoBehaviour
         if (player.transform.position.x > prevx + xUpperBound) {
             newx = player.transform.position.x - xUpperBound;
         }
-        else if (player.transform.position.x < prevx + xLowerBound) {
+        if (player.transform.position.x < prevx + xLowerBound) {
             newx = player.transform.position.x - xLowerBound;
         }
-        else if (player.transform.position.y > prevy + yUpperBound) {
+        if (player.transform.position.y > prevy + yUpperBound) {
             newy = player.transform.position.y - yUpperBound;
         }
-        else if (player.transform.position.y < prevy + yLowerBound) {
+        if (player.transform.position.y < prevy + yLowerBound) {
             newy = player.transform.position.y - yLowerBound;
         }
-        this.transform.position = new Vector3(newx, newy, -10);
+        this.transform.position = Vector2.Lerp(this.transform.position, new Vector2(newx, newy), 0.1f);
     }
 }
