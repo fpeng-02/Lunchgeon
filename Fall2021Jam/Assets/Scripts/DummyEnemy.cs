@@ -59,7 +59,6 @@ public class DummyEnemy : Enemy
             case State.Attacking:
                 if (attackTimer < 0.5)
                 {
-                    
                     atk1.attack();
                 }
                 if (attackTimer <= 0)
