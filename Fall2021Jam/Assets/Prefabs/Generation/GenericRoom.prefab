@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2923936407036342958}
-  - component: {fileID: 2923936407036342957}
+  - component: {fileID: 3591885598201884583}
   m_Layer: 0
   m_Name: GenericRoom
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2923936407036342957
+--- !u!114 &3591885598201884583
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,5 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eef0e941b6d140b4ea19f418019e1091, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doors: []
-  size: {x: 0, y: 0}
+  coord:
+  - {x: 0, y: 0}
+  doorCoord: []
