@@ -166,17 +166,17 @@ public class RoomGenerator : MonoBehaviour
         List<DoorCoord> doors = currNode.GetDoorCoords();
         int numInd = doors.Count;
 
-        DoorCoord newCoord;
+        DoorCoord randDoor;
         //start at a random door in the door array
         int randInd = (int)Random.Range(0, numInd);
         //check consequtively increasing doors, starting at the random starting point, to find a non filled door
         while (counter < numInd)
         {
-            newCoord = doors[(randInd + counter) % ((int)numInd)];
+            randDoor = doors[(randInd + counter) % ((int)numInd)];
             //if door is not filled && the spot that the door leads to is not filled then return it
-            if (!newCoord.getFilled() && !occupiedCoord.Contains(newCoord.NextCoord()))
+            if (!randDoor.getFilled() && !occupiedCoord.Contains(randDoor.NextCoord()))
             {
-                return newCoord;
+                return randDoor;
             }
             counter += 1;
         }
