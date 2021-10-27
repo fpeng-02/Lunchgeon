@@ -92,14 +92,17 @@ public class RoomGenerator : MonoBehaviour
         //check all rooms starting from a random room
         for (int i = 0; i < rooms.Count; i++)
         {
+            // TODO: current algorithm is less optimal because if we hit a room that doesn't work, we always loop to a room, effectively increasing its chance;
+            // Better to check all rooms, generate a set of valid ones, then choose a random one from that.
             Room randRoom = rooms[(randRoomInd + i) % (int)rooms.Count];
             List<DoorCoord> randRoomDoors = randRoom.GetDoorCoords();
+            int randDoorOffset = (int)Random.Range(0, randRoomDoors.Count);
             //for every room check if there are doors that match the direction of our current door
             for (int j = 0; j < randRoomDoors.Count; j++)
             {
                 //If there is an opposite corresponding door on the room to the current door, 
                 //check if the current room fits if the two doors are attached.
-                if (randRoomDoors[j].GetDir() == -currDoor.GetDir())
+                if (randRoomDoors[(j + randDoorOffset) % randRoomDoors.Count].GetDir() == -currDoor.GetDir())
                 {
                     //Moves the offset to the bottom left of the Room
                     testPosition = nextDoorSquare - randRoomDoors[j].GetCoord();
