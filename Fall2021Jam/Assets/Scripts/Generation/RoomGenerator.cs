@@ -2,42 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-
-/*Class: DoorCoord
- * Doorcoord class that contains the tile the door is on and the cardinal direction the door is facing
-*/
-public class DoorCoord : MonoBehaviour
-{
-    //local vars
-    private Vector2 doorCoord;  //coords of the door
-    private Vector2 doorDir;    //direction the door is facing (make sure this is (+-1,0) or (0,+-1)) 
-    private bool filled;        //is the door filled already? (default false)
-    
-    //constructor
-    public DoorCoord(Vector2 coord, Vector2 dir)
-    {
-        doorCoord = coord;
-        doorDir = dir;
-        filled = false;
-    }
-
-    //getters
-    public Vector2 GetCoord() { return this.doorCoord; }
-    public Vector2 GetDir() { return this.doorDir; }
-    public bool getFilled() { return filled; }
-    //setters
-    public void setCoord(Vector2 doorCoord) { this.doorCoord = doorCoord; }
-    public void setFilled(bool filled) { this.filled = filled; }
-
-    //returns the grid that the door is pointing to.
-    public Vector2 NextCoord()
-    {
-        return doorCoord + doorDir;
-    }
-    
-}
-
 public class RoomGenerator : MonoBehaviour
 {
     /*Class: Node
@@ -57,11 +21,14 @@ public class RoomGenerator : MonoBehaviour
             this.pos = pos;
             this.parent = parent;
             this.repRoom = repRoom;
+            children = new List<Node>();
         }
 
         //Getters
+        public Vector2 GetPos() { return this.pos; }
         public List<DoorCoord> GetDoorCoords() { return repRoom.GetDoorCoords(); }
         public List<Vector2> GetFill() { return repRoom.GetFill(); }
+        public Room GetRoom() { return this.repRoom; }
 
         //Add a child node to the child list
         public void AddChild(Node child)
@@ -72,7 +39,7 @@ public class RoomGenerator : MonoBehaviour
         //choose a random (kinda?) door from the availible non closed doors
     }
 
-    [SerializeField] private float roomSize = 10;
+    [SerializeField] private float roomSize;
     [SerializeField] private List<Room> rooms;
     [SerializeField] private Room startRoom;
     [SerializeField] private int maxRoom;
@@ -98,6 +65,7 @@ public class RoomGenerator : MonoBehaviour
         //create first start room node
         startNode = new Node(new Vector2(0, 0), null, startRoom);
         currNode = startNode;
+        generateRoom(startNode.GetRoom().gameObject, startNode.GetPos());
         InitNode(currNode);
         
         while (roomCount < maxRoom)
@@ -107,8 +75,9 @@ public class RoomGenerator : MonoBehaviour
             {
                 Debug.Log("TODO: No more open doors in the current room!");
             }
-            nextDoorSquare = currDoor.NextCoord();
+            nextDoorSquare = currDoor.NextCoord() + currNode.GetPos();
             Node newNode = checkRoom();
+            generateRoom(newNode.GetRoom().gameObject, newNode.GetPos());
             InitNode(newNode);
             currNode.AddChild(newNode);
             currNode = newNode;
@@ -156,6 +125,7 @@ public class RoomGenerator : MonoBehaviour
                 }
             }
         }
+        Debug.Log("TODO: No valid rooms found!");
         return null;
     }
 
@@ -174,7 +144,7 @@ public class RoomGenerator : MonoBehaviour
         {
             randDoor = doors[(randInd + counter) % ((int)numInd)];
             //if door is not filled && the spot that the door leads to is not filled then return it
-            if (!randDoor.getFilled() && !occupiedCoord.Contains(randDoor.NextCoord()))
+            if (!randDoor.getFilled() && !occupiedCoord.Contains(randDoor.NextCoord() + currNode.GetPos()))
             {
                 return randDoor;
             }
@@ -187,18 +157,18 @@ public class RoomGenerator : MonoBehaviour
     public void InitNode(Node newNode)
     {
         //NOTE: USER DEFINED CLASSES ARE PASSED BY VALUE NOT REFERENCE
-        AddToOccupied(newNode.GetFill());
+        newNode.GetFill().ForEach(fillSquare => occupiedCoord.Add(fillSquare + newNode.GetPos()));
         roomCount++;
     }
 
-    //Add all the spaces in coord to occupiedCoord.
+    /*//Add all the spaces in coord to occupiedCoord.
     public void AddToOccupied(List<Vector2> coord)
     {
         for (int i = 0; i < coord.Count; i++)
         {
             occupiedCoord.Add(coord[i]);
         }
-    }
+    }*/
 
     //Convert The Nodes Into Stage GameObjects
     public void generateStage()
@@ -209,6 +179,6 @@ public class RoomGenerator : MonoBehaviour
 
     public void generateRoom(GameObject room, Vector2 coords)
     {
-        Instantiate(gameObject, coords * roomSize, room.transform.rotation);
+        Instantiate(room, coords * roomSize, room.transform.rotation);
     }
 }

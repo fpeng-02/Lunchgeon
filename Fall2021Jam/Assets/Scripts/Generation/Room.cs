@@ -7,6 +7,12 @@ public class Room : MonoBehaviour
     [SerializeField] private List<Vector2> fill;
     [SerializeField] private List<DoorCoord> doorCoord;
 
+    public void Start()
+    {
+    }
+
+    //public GameObject GetGameObject() { return this.gameObject; }
+
     public List<Vector2> GetFill()
     {
         List<Vector2> newList = new List<Vector2>(fill);
