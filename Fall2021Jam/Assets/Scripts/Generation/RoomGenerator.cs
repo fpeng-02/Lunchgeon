@@ -11,8 +11,8 @@ public class DoorCoord : MonoBehaviour
 {
     //local vars
     private Vector2 doorCoord;  //coords of the door
-    private Vector2 doorDir;    //direcftion the door is facing
-    private bool filled;        //Is the door filled already (default false)
+    private Vector2 doorDir;    //direction the door is facing (make sure this is (+-1,0) or (0,+-1)) 
+    private bool filled;        //is the door filled already? (default false)
     
     //constructor
     public DoorCoord(Vector2 coord, Vector2 dir)
@@ -38,45 +38,40 @@ public class DoorCoord : MonoBehaviour
     
 }
 
-/*Class: Node
- * node class that contains the information for one room. 
-*/
-public class Node
-{
-    //local vars
-    private List<Vector2> coord;        //list of coordinates the room occupies
-    private List<DoorCoord> doorCoord;  //list of all the doors the room has.
-    private Node parent;                //parent of the node
-    private List<Node> children;        //children of the node
-    private Room repRoom;               //Room gameobject the node represents
-
-    //constructor 
-    public Node(List<Vector2> coord, List<DoorCoord> doorCoord, Node parent, Room repRoom)
-    {
-        this.coord = coord;
-        this.doorCoord = doorCoord;
-        this.parent = parent;
-        this.repRoom = repRoom;
-    }
-
-    //Getters
-    public List<DoorCoord> GetDoorCoord(){ return doorCoord; }
-    public List<Vector2> GetCoord() { return coord; }
-
-
-    //Add a child node to the child list
-    public void AddChild(Node child)
-    {
-        children.Add(child);
-    }
-
-    //choose a random (kinda?) door from the availible non closed doors.
-
-}
-
-
 public class RoomGenerator : MonoBehaviour
 {
+    /*Class: Node
+     * node class that contains the information for one room. 
+    */
+    public class Node
+    {
+        //local vars
+        private Vector2 pos;       //location of the lower left corner of this room, in global space
+        private Node parent;                //parent of the node
+        private List<Node> children;        //children of the node
+        private Room repRoom;               //Room gameobject the node represents
+
+        //constructor 
+        public Node(Vector2 pos, Node parent, Room repRoom)
+        {
+            this.pos = pos;
+            this.parent = parent;
+            this.repRoom = repRoom;
+        }
+
+        //Getters
+        public List<DoorCoord> GetDoorCoords() { return repRoom.GetDoorCoords(); }
+        public List<Vector2> GetFill() { return repRoom.GetFill(); }
+
+        //Add a child node to the child list
+        public void AddChild(Node child)
+        {
+            children.Add(child);
+        }
+
+        //choose a random (kinda?) door from the availible non closed doors
+    }
+
     [SerializeField] private float roomSize = 10;
     [SerializeField] private List<Room> rooms;
     [SerializeField] private Room startRoom;
@@ -90,7 +85,7 @@ public class RoomGenerator : MonoBehaviour
     private DoorCoord currDoor; //current/working door
     private int roomCount;      //overall room count
 
-    private Vector2 offset = new Vector2(0, 0); //offset from origin
+    private Vector2 nextDoorSquare = new Vector2(0, 0); //offset from origin
 
 
     void Start()
@@ -101,7 +96,7 @@ public class RoomGenerator : MonoBehaviour
     public void generateNodes()
     {
         //create first start room node
-        startNode = new Node(startRoom.GetCoord(), startRoom.GetDoors(), null, startRoom);
+        startNode = new Node(new Vector2(0, 0), null, startRoom);
         currNode = startNode;
         InitNode(currNode);
         
@@ -110,28 +105,26 @@ public class RoomGenerator : MonoBehaviour
             currDoor = chooseDoor(currNode);
             if (currDoor == null)
             {
-                //TODO: CASE WHEN NO DOORS OPEN IN THE CURRENT ROOM
+                Debug.Log("TODO: No more open doors in the current room!");
             }
-            offset = currDoor.NextCoord();
+            nextDoorSquare = currDoor.NextCoord();
             Node newNode = checkRoom();
             InitNode(newNode);
             currNode.AddChild(newNode);
             currNode = newNode;
             //TODO BRANCH STOPPING MEKANISM.
-
-
         }
     }
 
     public Node checkRoom()
     {
-        Vector2 localOffset;
+        Vector2 testPosition;
         int randRoomInd = (int)Random.Range(0, rooms.Count);
         //check all rooms starting from a random room
         for (int i = 0; i < rooms.Count; i++)
         {
-            Room randRoom = rooms[(randRoomInd + i) / (int)rooms.Count];
-            List<DoorCoord> randRoomDoors = randRoom.GetDoors();
+            Room randRoom = rooms[(randRoomInd + i) % (int)rooms.Count];
+            List<DoorCoord> randRoomDoors = randRoom.GetDoorCoords();
             //for every room check if there are doors that match the direction of our current door
             for (int j = 0; j < randRoomDoors.Count; j++)
             {
@@ -140,15 +133,15 @@ public class RoomGenerator : MonoBehaviour
                 if (randRoomDoors[j].GetDir() == -currDoor.GetDir())
                 {
                     //Moves the offset to the bottom left of the Room
-                    localOffset = offset - randRoomDoors[j].GetDir();
+                    testPosition = nextDoorSquare - randRoomDoors[j].GetCoord();
 
                     bool isValid = true;
-                    List<Vector2> randRoomCoords = randRoom.GetCoord();
+                    List<Vector2> randRoomFill = randRoom.GetFill();
                     //check if every space in that the room would occupy is full 
-                    for (int k = 0; k < randRoomCoords.Count; k++)
+                    for (int k = 0; k < randRoomFill.Count; k++)
                     {
                         //if the offsetted piece of room is already taken, the room is invalid and the loop ends.
-                        if (occupiedCoord.Contains(localOffset + randRoomCoords[k]))
+                        if (occupiedCoord.Contains(testPosition + randRoomFill[k]))
                         {
                             isValid = false;
                             break;
@@ -157,8 +150,7 @@ public class RoomGenerator : MonoBehaviour
                     //If all spots of the room are valid, then return a new node with 
                     if (isValid)
                     {
-
-                        return new Node(randRoom.GetOffsetCoord(localOffset), randRoom.GetOffsetDoorCoord(localOffset), currNode, randRoom);
+                        return new Node(testPosition, currNode, randRoom);
                     }
 
                 }
@@ -167,13 +159,12 @@ public class RoomGenerator : MonoBehaviour
         return null;
     }
 
-    
-
     //Chose an open door 
     public DoorCoord chooseDoor(Node currNode)
     {
         int counter = 0;
-        int numInd = currNode.GetDoorCoord().Count;
+        List<DoorCoord> doors = currNode.GetDoorCoords();
+        int numInd = doors.Count;
 
         DoorCoord newCoord;
         //start at a random door in the door array
@@ -181,7 +172,7 @@ public class RoomGenerator : MonoBehaviour
         //check consequtively increasing doors, starting at the random starting point, to find a non filled door
         while (counter < numInd)
         {
-            newCoord = currNode.GetDoorCoord()[(randInd + counter) / ((int)numInd)];
+            newCoord = doors[(randInd + counter) % ((int)numInd)];
             //if door is not filled && the spot that the door leads to is not filled then return it
             if (!newCoord.getFilled() && !occupiedCoord.Contains(newCoord.NextCoord()))
             {
@@ -190,14 +181,13 @@ public class RoomGenerator : MonoBehaviour
             counter += 1;
         }
         return null;
-
     }
 
     //Updates room Count and adds the spaces of the newNode to the occupiedCoord list.
     public void InitNode(Node newNode)
     {
         //NOTE: USER DEFINED CLASSES ARE PASSED BY VALUE NOT REFERENCE
-        AddToOccupied(newNode.GetCoord());
+        AddToOccupied(newNode.GetFill());
         roomCount++;
     }
 
