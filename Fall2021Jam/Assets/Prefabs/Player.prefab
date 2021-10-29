@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
-  baseMoveSpeed: 4
+  baseMoveSpeed: 10
   atk1: {fileID: 4413491533130074750}
 --- !u!50 &8638678760428065037
 Rigidbody2D:
