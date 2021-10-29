@@ -135,70 +135,22 @@ public class RoomGenerator : MonoBehaviour
             int chosenAnchorIndex = Random.Range(0, validNewRoomCoords[chosenRoomIndex].Count);
             return new Node(validNewRoomCoords[chosenRoomIndex][chosenAnchorIndex], currNode, validNewRooms[chosenRoomIndex]);
         }
-
-        /*
-        for (int i = 0; i < rooms.Count; i++)
-        {
-            Room randRoom = rooms[(randRoomInd + i) % (int)rooms.Count];
-            List<DoorCoord> randRoomDoors = randRoom.GetDoorCoords();
-            int randDoorOffset = (int)Random.Range(0, randRoomDoors.Count);
-            //for every room check if there are doors that match the direction of our current door
-            for (int j = 0; j < randRoomDoors.Count; j++)
-            {
-                //If there is an opposite corresponding door on the room to the current door, 
-                //check if the current room fits if the two doors are attached.
-                if (randRoomDoors[(j + randDoorOffset) % randRoomDoors.Count].GetDir() == -currDoor.GetDir())
-                {
-                    //Moves the offset to the bottom left of the Room
-                    testPosition = nextDoorSquare - randRoomDoors[j].GetCoord();
-
-                    bool isValid = true;
-                    List<Vector2> randRoomFill = randRoom.GetFill();
-                    //check if every space in that the room would occupy is full 
-                    for (int k = 0; k < randRoomFill.Count; k++)
-                    {
-                        //if the offsetted piece of room is already taken, the room is invalid and the loop ends.
-                        if (occupiedCoord.Contains(testPosition + randRoomFill[k]))
-                        {
-                            isValid = false;
-                            break;
-                        }
-                    }
-                    //If all spots of the room are valid, then return a new node with 
-                    if (isValid)
-                    {
-                        return new Node(testPosition, currNode, randRoom);
-                    }
-
-                }
-            }
-        }
-        Debug.Log("TODO: No valid rooms found!");
-        return null;*/
     }
 
     //Chose an open door 
     public DoorCoord ChooseDoor(Node currNode)
     {
         int counter = 0;
-        List<DoorCoord> doors = currNode.GetDoorCoords();
-        int numInd = doors.Count;
+        List<DoorCoord> validDoors = new List<DoorCoord>();
 
-        DoorCoord randDoor;
-        //start at a random door in the door array
-        int randInd = (int)Random.Range(0, numInd);
-        //check consequtively increasing doors, starting at the random starting point, to find a non filled door
-        while (counter < numInd)
-        {
-            randDoor = doors[(randInd + counter) % ((int)numInd)];
-            //if door is not filled && the spot that the door leads to is not filled then return it
-            if (!randDoor.getFilled() && !occupiedCoord.Contains(randDoor.NextCoord() + currNode.GetPos()))
-            {
-                return randDoor;
+        foreach (DoorCoord door in currNode.GetDoorCoords()) {
+            if (!door.getFilled() && !occupiedCoord.Contains(door.NextCoord() + currNode.GetPos())) {
+                validDoors.Add(door);
             }
-            counter += 1;
         }
-        return null;
+
+        if (validDoors.Count == 0) return null;
+        else return validDoors[Random.Range(0, validDoors.Count)];
     }
 
     //Updates room Count and adds the spaces of the newNode to the occupiedCoord list.
