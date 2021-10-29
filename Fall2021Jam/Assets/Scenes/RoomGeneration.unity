@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5714775178210010853, guid: 3081a5d150ff8b446b355af827f50fde, type: 3}
+      propertyPath: baseMoveSpeed
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 6509762001698211879, guid: 3081a5d150ff8b446b355af827f50fde, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -351,8 +355,6 @@ MonoBehaviour:
   roomSize: 10
   rooms:
   - {fileID: 2994473236413705088, guid: 40742984d0d14e94683eb7d1d4f52401, type: 3}
-  - {fileID: 2946385717938251136, guid: 8ed6ee205a2a7cf4c912d7fbc4e6fb23, type: 3}
-  - {fileID: 6334797405978415343, guid: a921368dace795b4bb415c974577963e, type: 3}
   startRoom: {fileID: 3591885598201884583, guid: 7c9ea19247dd8c547b7cbf955406513d, type: 3}
   maxRoom: 10
 --- !u!4 &743454006
