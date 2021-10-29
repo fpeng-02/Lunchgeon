@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5714775178210010853, guid: 3081a5d150ff8b446b355af827f50fde, type: 3}
+      propertyPath: baseMoveSpeed
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 6509762001698211879, guid: 3081a5d150ff8b446b355af827f50fde, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -214,7 +218,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 661625023}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.9542327, y: -0.6404161, z: -7.2818036}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 665322125}
@@ -351,10 +355,8 @@ MonoBehaviour:
   roomSize: 10
   rooms:
   - {fileID: 2994473236413705088, guid: 40742984d0d14e94683eb7d1d4f52401, type: 3}
-  - {fileID: 6334797405978415343, guid: a921368dace795b4bb415c974577963e, type: 3}
-  - {fileID: 2946385717938251136, guid: 8ed6ee205a2a7cf4c912d7fbc4e6fb23, type: 3}
   startRoom: {fileID: 3571885131343063906, guid: 08908f66dcfb48f4dbe855563aeb422a, type: 3}
-  maxRoom: 10
+  maxRoom: 3
 --- !u!4 &743454006
 Transform:
   m_ObjectHideFlags: 0
@@ -363,7 +365,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 743454004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

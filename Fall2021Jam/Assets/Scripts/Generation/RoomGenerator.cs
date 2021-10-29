@@ -44,6 +44,8 @@ public class RoomGenerator : MonoBehaviour
     [SerializeField] private Room startRoom;
     [SerializeField] private int maxRoom;
 
+    private List<Vector3> debug; // stores anchor of each generated room, connecting them will give a sort of "path" that gen followed
+
 
     private List<Vector2> occupiedCoord = new List<Vector2>();
 
@@ -57,27 +59,29 @@ public class RoomGenerator : MonoBehaviour
 
     void Start()
     {
-        generateNodes();
+        debug = new List<Vector3>();
+        GenerateNodes();
     }
 
-    public void generateNodes()
+    public void GenerateNodes()
     {
         //create first start room node
         startNode = new Node(new Vector2(0, 0), null, startRoom);
         currNode = startNode;
-        generateRoom(startNode.GetRoom().gameObject, startNode.GetPos());
+        GenerateRoom(startNode.GetRoom().gameObject, startNode.GetPos());
         InitNode(currNode);
         
         while (roomCount < maxRoom)
         {
-            currDoor = chooseDoor(currNode);
+            currDoor = ChooseDoor(currNode);
             if (currDoor == null)
             {
                 Debug.Log("TODO: No more open doors in the current room!");
             }
             nextDoorSquare = currDoor.NextCoord() + currNode.GetPos();
-            Node newNode = checkRoom();
-            generateRoom(newNode.GetRoom().gameObject, newNode.GetPos());
+            debug.Add(new Vector3(nextDoorSquare.x, nextDoorSquare.y, -5));
+            Node newNode = CheckRoom();
+            GenerateRoom(newNode.GetRoom().gameObject, newNode.GetPos());
             InitNode(newNode);
             currNode.AddChild(newNode);
             currNode = newNode;
@@ -85,15 +89,56 @@ public class RoomGenerator : MonoBehaviour
         }
     }
 
-    public Node checkRoom()
+    public Node CheckRoom()
     {
         Vector2 testPosition;
         int randRoomInd = (int)Random.Range(0, rooms.Count);
         //check all rooms starting from a random room
+
+        // For every room, check every door alignment for whether or not we can place it somewhere.
+        bool doorValid;
+        bool firstValidDoor;
+        Vector2 testAnchor = new Vector2(0, 0);
+        List<Room> validNewRooms = new List<Room>();
+        List<List<Vector2>> validNewRoomCoords = new List<List<Vector2>>();  // list will be parallel to validNewRooms
+        List<Vector2> t = null;
+
+        foreach (Room room in rooms) {
+            firstValidDoor = true;  // used to make sure a list is initialized properly
+            foreach (DoorCoord door in room.GetDoorCoords()) {
+                if (door.GetDir() != -currDoor.GetDir()) continue;  // only look for doors that are aligned with the current one used in generation
+                doorValid = true;  // assume the current door is valid; if we find that placement fails, this will become false
+                testAnchor = nextDoorSquare - door.GetCoord();
+                foreach (Vector2 fillTest in room.GetFill()) {  // test the situation: if we placed a room down using this door for alignment, will it overlap?
+                    if (occupiedCoord.Contains(testAnchor + fillTest)) {
+                        doorValid = false;
+                        break;
+                    }
+                }
+                if (doorValid) {
+                    if (firstValidDoor) {
+                        validNewRooms.Add(room);  // one valid door validates the room! also, this will only be hit once.
+                        validNewRoomCoords.Add(new List<Vector2>());
+                        firstValidDoor = false;
+                        t = validNewRoomCoords[validNewRoomCoords.Count - 1];
+                    }
+                    t.Add(testAnchor);  // t will be initialized since the if condition is always hit before
+                }
+            }
+        }
+        if (validNewRooms.Count == 0) {
+            Debug.Log("No valid rooms found!");
+            return null;
+        }
+        else {
+            int chosenRoomIndex = Random.Range(0, validNewRooms.Count);
+            int chosenAnchorIndex = Random.Range(0, validNewRoomCoords[chosenRoomIndex].Count);
+            return new Node(validNewRoomCoords[chosenRoomIndex][chosenAnchorIndex], currNode, validNewRooms[chosenRoomIndex]);
+        }
+
+        /*
         for (int i = 0; i < rooms.Count; i++)
         {
-            // TODO: current algorithm is less optimal because if we hit a room that doesn't work, we always loop to a room, effectively increasing its chance;
-            // Better to check all rooms, generate a set of valid ones, then choose a random one from that.
             Room randRoom = rooms[(randRoomInd + i) % (int)rooms.Count];
             List<DoorCoord> randRoomDoors = randRoom.GetDoorCoords();
             int randDoorOffset = (int)Random.Range(0, randRoomDoors.Count);
@@ -129,11 +174,11 @@ public class RoomGenerator : MonoBehaviour
             }
         }
         Debug.Log("TODO: No valid rooms found!");
-        return null;
+        return null;*/
     }
 
     //Chose an open door 
-    public DoorCoord chooseDoor(Node currNode)
+    public DoorCoord ChooseDoor(Node currNode)
     {
         int counter = 0;
         List<DoorCoord> doors = currNode.GetDoorCoords();
@@ -164,24 +209,22 @@ public class RoomGenerator : MonoBehaviour
         roomCount++;
     }
 
-    /*//Add all the spaces in coord to occupiedCoord.
-    public void AddToOccupied(List<Vector2> coord)
-    {
-        for (int i = 0; i < coord.Count; i++)
-        {
-            occupiedCoord.Add(coord[i]);
-        }
-    }*/
-
     //Convert The Nodes Into Stage GameObjects
-    public void generateStage()
+    public void GenerateStage()
     {
 
     }
 
 
-    public void generateRoom(GameObject room, Vector2 coords)
+    public void GenerateRoom(GameObject room, Vector2 coords)
     {
         Instantiate(room, coords * roomSize, room.transform.rotation);
+    }
+
+    public void OnDrawGizmos()
+    {
+        if (!Application.isPlaying) return;
+        for (int i = 0; i < debug.Count - 1; i++)
+            Gizmos.DrawLine(debug[i] * roomSize, debug[i+1] * roomSize);
     }
 }
