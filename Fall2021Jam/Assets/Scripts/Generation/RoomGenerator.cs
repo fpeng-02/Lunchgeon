@@ -56,6 +56,10 @@ public class RoomGenerator : MonoBehaviour
 
     private Vector2 nextDoorSquare = new Vector2(0, 0); //offset from origin
 
+    private int branchLength;
+    private List<Node> leafList;
+    private List<Node> nodeList;
+
 
     void Start()
     {
@@ -70,14 +74,25 @@ public class RoomGenerator : MonoBehaviour
         currNode = startNode;
         GenerateRoom(startNode.GetRoom().gameObject, startNode.GetPos());
         InitNode(currNode);
+
+        //variables used for branching/ postgen
+        branchLength = 0;
+        leafList = new List<Node>();
+        nodeList = new List<Node>();
         
+
+
         while (roomCount < maxRoom)
         {
             currDoor = ChooseDoor(currNode);
             if (currDoor == null)
             {
                 Debug.Log("TODO: No more open doors in the current room!");
+                nodeList.Remove(currNode);
+                currNode = nodeList[(int)Random.Range(0f, (float)nodeList.Count)];
+                continue;
             }
+            Debug.Log(currDoor);
             nextDoorSquare = currDoor.NextCoord() + currNode.GetPos();
             debug.Add(new Vector3(nextDoorSquare.x, nextDoorSquare.y, -5));
             Node newNode = CheckRoom();
@@ -85,8 +100,33 @@ public class RoomGenerator : MonoBehaviour
             InitNode(newNode);
             currNode.AddChild(newNode);
             currNode = newNode;
-            //TODO BRANCH STOPPING MEKANISM.
+
+
+            //Branching
+            branchLength += 1;
+
+            if (DetermineBranch(branchLength))
+            {
+                leafList.Add(currNode);
+
+                currNode = nodeList[Random.Range(0, nodeList.Count)];
+                branchLength = 0;
+            }
+            else
+            {
+                nodeList.Add(currNode);
+            }
         }
+    }
+
+    public bool DetermineBranch(int bl)
+    {
+        float branchChance = bl * 0.25f;
+        if (branchChance > Random.Range(0f, 1f))
+        {
+            return true;
+        }
+        return false;
     }
 
     public Node CheckRoom()
