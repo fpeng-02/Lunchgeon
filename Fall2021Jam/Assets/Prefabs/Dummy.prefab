@@ -99,6 +99,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 20
+  lootTable: {fileID: 11400000, guid: 1abf66a2d6454a34382ee7ee266287a9, type: 2}
+  itemDropGo: {fileID: 8846358157116065549, guid: 5e406a5428411c64a961818e6bf52b1d, type: 3}
   cycleLength: 1
   baseMoveSpeed: 3
   atk1: {fileID: 1060551686733053158}

@@ -10,13 +10,17 @@ public class Player : Entity
     private Vector3 dirVect;
     private Rigidbody2D rb;
     [SerializeField] private Attack atk1;
+    [SerializeField] private PlayerInventory inventorySO;
+    private ItemContainer inventory;
     
+    public ItemContainer GetPlayerInventory() { return inventory; }
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        inventory = inventorySO.GetItemContainer();
     }
 
     // Update is called once per frame
