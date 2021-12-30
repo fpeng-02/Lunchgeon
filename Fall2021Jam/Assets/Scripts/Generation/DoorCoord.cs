@@ -5,6 +5,7 @@ using UnityEngine;
 /*Class: DoorCoord
  * Doorcoord class that contains the tile the door is on and the cardinal direction the door is facing
 */
+[System.Serializable]
 public class DoorCoord : MonoBehaviour
 {
     //local vars
@@ -17,7 +18,7 @@ public class DoorCoord : MonoBehaviour
     {
         doorCoord = coord;
         doorDir = dir;
-        filled = false;
+        filled = true;
     }
 
     //getters

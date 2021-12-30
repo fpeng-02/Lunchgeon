@@ -359,6 +359,7 @@ MonoBehaviour:
   - {fileID: 6334797405978415343, guid: a921368dace795b4bb415c974577963e, type: 3}
   startRoom: {fileID: 3591885598201884583, guid: 7c9ea19247dd8c547b7cbf955406513d, type: 3}
   maxRoom: 15
+  branchIncrement: 0.25
 --- !u!4 &743454006
 Transform:
   m_ObjectHideFlags: 0

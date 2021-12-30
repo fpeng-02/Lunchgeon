@@ -1,4 +1,4 @@
-using System.Collections;
+    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +6,8 @@ public class Room : MonoBehaviour
 {
     [SerializeField] private List<Vector2> fill;
     [SerializeField] private List<DoorCoord> doorCoord;
+
+    [SerializeField] private List<GameObject> fillerWalls;
 
     public void Start()
     {

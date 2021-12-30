@@ -43,6 +43,8 @@ public class RoomGenerator : MonoBehaviour
     [SerializeField] private List<Room> rooms;
     [SerializeField] private Room startRoom;
     [SerializeField] private int maxRoom;
+    [SerializeField] private float branchIncrement;
+
 
     private List<Vector3> debug; // stores anchor of each generated room, connecting them will give a sort of "path" that gen followed
 
@@ -105,6 +107,7 @@ public class RoomGenerator : MonoBehaviour
             //Branching
             branchLength += 1;
 
+            //
             if (DetermineBranch(branchLength))
             {
                 leafList.Add(currNode);
@@ -119,9 +122,10 @@ public class RoomGenerator : MonoBehaviour
         }
     }
 
+    //Determine whether to branch or not given a branch length
     public bool DetermineBranch(int bl)
     {
-        float branchChance = bl * 0.25f;
+        float branchChance = bl * branchIncrement;
         if (branchChance > Random.Range(0f, 1f))
         {
             return true;
@@ -173,6 +177,9 @@ public class RoomGenerator : MonoBehaviour
         else {
             int chosenRoomIndex = Random.Range(0, validNewRooms.Count);
             int chosenAnchorIndex = Random.Range(0, validNewRoomCoords[chosenRoomIndex].Count);
+
+
+
             return new Node(validNewRoomCoords[chosenRoomIndex][chosenAnchorIndex], currNode, validNewRooms[chosenRoomIndex]);
         }
     }
