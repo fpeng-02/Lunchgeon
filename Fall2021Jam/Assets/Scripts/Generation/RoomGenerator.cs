@@ -41,7 +41,7 @@ public class RoomGenerator : MonoBehaviour
     }
 
     [SerializeField] private float roomSize;
-    [SerializeField] private List<Room> rooms;
+    [SerializeField] private List<Room> roomPool;
     [SerializeField] private Room startRoom;
     [SerializeField] private int maxRoom;
     [SerializeField] private float branchIncrement;
@@ -160,7 +160,7 @@ public class RoomGenerator : MonoBehaviour
 
 
         Vector2 testPosition;
-        int randRoomInd = (int)Random.Range(0, rooms.Count);
+        int randRoomInd = (int)Random.Range(0, roomPool.Count);
         //check all rooms starting from a random room
 
         // For every room, check every door alignment for whether or not we can place it somewhere.
@@ -171,7 +171,7 @@ public class RoomGenerator : MonoBehaviour
         List<List<Vector2>> validNewRoomCoords = new List<List<Vector2>>();  // list will be parallel to validNewRooms
         List<Vector2> t = null;
 
-        foreach (Room room in rooms) {
+        foreach (Room room in roomPool) {
             firstValidDoor = true;  // used to make sure a list is initialized properly
             foreach (DoorCoord door in room.GetDoorCoords()) {
                 if (door.GetDir() != -currDoor.GetDir()) continue;  // only look for doors that are aligned with the current one used in generation
@@ -241,6 +241,11 @@ public class RoomGenerator : MonoBehaviour
         Instantiate(room, coords * roomSize, room.transform.rotation);
     }
 
+    /// <summary>
+    /// Places Room prefabs onto world space by traversing the generated Node graph recursively.
+    /// Also configures the placed room's doors to blocked or open.
+    /// </summary>
+    /// <param name="startR"></param>
     public void GenerateAllRooms(Node startR)
     {
         Instantiate(startR.GetRoom(), startR.GetPos() * roomSize, startR.GetRoom().transform.rotation);

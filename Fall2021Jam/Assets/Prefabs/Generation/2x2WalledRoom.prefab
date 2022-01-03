@@ -162,6 +162,7 @@ MonoBehaviour:
   - {fileID: 3678437771722318896}
   - {fileID: 6093210905617607704}
   - {fileID: 6093437342859076531}
+  fillerWalls: []
 --- !u!1 &7010685589953214175
 GameObject:
   m_ObjectHideFlags: 0
