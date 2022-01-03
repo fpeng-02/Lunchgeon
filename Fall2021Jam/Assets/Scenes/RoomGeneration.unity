@@ -356,7 +356,7 @@ MonoBehaviour:
   roomPool:
   - {fileID: 6334797405978415343, guid: a921368dace795b4bb415c974577963e, type: 3}
   - {fileID: 2946385717938251136, guid: 8ed6ee205a2a7cf4c912d7fbc4e6fb23, type: 3}
-  startRoom: {fileID: 3591885598201884583, guid: 7c9ea19247dd8c547b7cbf955406513d, type: 3}
+  startRoom: {fileID: 3571885131343063906, guid: 08908f66dcfb48f4dbe855563aeb422a, type: 3}
   maxRoom: 100
   branchIncrement: 0.04
 --- !u!4 &743454006
@@ -372,50 +372,4 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &958501774
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 958501776}
-  - component: {fileID: 958501775}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &958501775
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 958501774}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 794c5b8898dd5574f9a1e7b7ecc7c7ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  doorsthings:
-  - doorCoord: {x: 0, y: 0}
-    doorDir: {x: 0, y: 0}
---- !u!4 &958501776
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 958501774}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 23.182184, y: 40.491165, z: -228.46634}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

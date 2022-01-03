@@ -213,7 +213,7 @@ public class RoomGenerator : MonoBehaviour
         List<DoorCoord> validDoors = new List<DoorCoord>();
 
         foreach (DoorCoord door in currNode.GetDoorCoords()) {
-            if (!door.getFilled() && !occupiedCoord.Contains(door.NextCoord() + currNode.GetPos())) {
+            if (!door.GetFilled() && !occupiedCoord.Contains(door.NextCoord() + currNode.GetPos())) {
                 validDoors.Add(door);
             }
         }
