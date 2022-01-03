@@ -1,4 +1,4 @@
-using System.Collections;
+    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,12 +11,6 @@ public class Room : MonoBehaviour
 
     public void Start()
     {
-    }
-
-    public Room(Room copy)
-    {
-        this.fill = new List<Vector2>(copy.GetFill());
-        this.doorCoord = new List<DoorCoord>(copy.GetDoorCoords());
     }
 
     //public GameObject GetGameObject() { return this.gameObject; }
