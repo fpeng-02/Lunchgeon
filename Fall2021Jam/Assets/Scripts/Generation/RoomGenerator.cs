@@ -29,6 +29,7 @@ public class RoomGenerator : MonoBehaviour
         public List<DoorCoord> GetDoorCoords() { return repRoom.GetDoorCoords(); }
         public List<Vector2> GetFill() { return repRoom.GetFill(); }
         public Room GetRoom() { return this.repRoom; }
+        public List<Node> GetChildren() { return this.children; }
 
         //Add a child node to the child list
         public void AddChild(Node child)
@@ -53,7 +54,6 @@ public class RoomGenerator : MonoBehaviour
 
     private Node startNode;     //start node/root node
     private Node currNode;      //current/working node
-    private DoorCoord currDoor; //current/working door
     private int roomCount;      //overall room count
 
     private Vector2 nextDoorSquare = new Vector2(0, 0); //offset from origin
@@ -61,6 +61,9 @@ public class RoomGenerator : MonoBehaviour
     private int branchLength;
     private List<Node> leafList;
     private List<Node> nodeList;
+
+    private GameObject prevRoom;
+    private GameObject currRoom;
 
 
     void Start()
@@ -74,45 +77,50 @@ public class RoomGenerator : MonoBehaviour
         //create first start room node
         startNode = new Node(new Vector2(0, 0), null, startRoom);
         currNode = startNode;
-        GenerateRoom(startNode.GetRoom().gameObject, startNode.GetPos());
-        InitNode(currNode);
+        Node nextNode = null;
+        //GenerateRoom(startNode.GetRoom().gameObject, startNode.GetPos());
+        UpdateFill(currNode);
 
         //variables used for branching/ postgen
         branchLength = 0;
         leafList = new List<Node>();
         nodeList = new List<Node>();
-        
 
+        nodeList.Add(startNode);
+
+
+        //variables used for connecting passageways between two rooms
+        prevRoom = null;
+        currRoom = null;
 
         while (roomCount < maxRoom)
         {
-            currDoor = ChooseDoor(currNode);
-            if (currDoor == null)
+            //Debug.Log(currDoor);
+            //Write fail condition for Checkroom (Currently never fails because the 1x1 preset will always fill small spaces)
+            //Debug.Log("cumm");
+            nextNode = FindNextRoom(currNode);
+            if (nextNode == null)
             {
-                Debug.Log("TODO: No more open doors in the current room!");
                 nodeList.Remove(currNode);
-                currNode = nodeList[(int)Random.Range(0f, (float)nodeList.Count)];
+
+                currNode = nodeList.Count > 0 ? nodeList[Random.Range(0, nodeList.Count)] : leafList[Random.Range(0, leafList.Count)];
                 continue;
             }
-            Debug.Log(currDoor);
-            nextDoorSquare = currDoor.NextCoord() + currNode.GetPos();
-            debug.Add(new Vector3(nextDoorSquare.x, nextDoorSquare.y, -5));
-            Node newNode = CheckRoom();
-            GenerateRoom(newNode.GetRoom().gameObject, newNode.GetPos());
-            InitNode(newNode);
-            currNode.AddChild(newNode);
-            currNode = newNode;
+
+            //GenerateRoom(nextNode.GetRoom().gameObject, nextNode.GetPos());
+            UpdateFill(nextNode);
+            currNode.AddChild(nextNode);
+            roomCount++;
+            currNode = nextNode;
 
 
             //Branching
             branchLength += 1;
-
-            //
             if (DetermineBranch(branchLength))
             {
                 leafList.Add(currNode);
-
-                currNode = nodeList[Random.Range(0, nodeList.Count)];
+                               
+                currNode = nodeList.Count > 0 ? nodeList[Random.Range(0, nodeList.Count)] : leafList[Random.Range(0, leafList.Count)];
                 branchLength = 0;
             }
             else
@@ -120,6 +128,8 @@ public class RoomGenerator : MonoBehaviour
                 nodeList.Add(currNode);
             }
         }
+        
+        GenerateAllRooms(startNode);
     }
 
     //Determine whether to branch or not given a branch length
@@ -133,8 +143,22 @@ public class RoomGenerator : MonoBehaviour
         return false;
     }
 
-    public Node CheckRoom()
+    public Node FindNextRoom(Node currNode)
     {
+        //Choose a door to create a new room out of
+        DoorCoord currDoor = ChooseDoor(currNode); // Exit door to place new room
+        
+
+        //If no doors are available, branch to a new Node
+        if (currDoor == null)
+        {
+            Debug.Log("TODO: No more open doors in the current room!");
+            return null;
+        }
+        nextDoorSquare = currDoor.NextCoord() + currNode.GetPos();
+        debug.Add(new Vector3(nextDoorSquare.x, nextDoorSquare.y, -5));
+
+
         Vector2 testPosition;
         int randRoomInd = (int)Random.Range(0, rooms.Count);
         //check all rooms starting from a random room
@@ -177,9 +201,7 @@ public class RoomGenerator : MonoBehaviour
         else {
             int chosenRoomIndex = Random.Range(0, validNewRooms.Count);
             int chosenAnchorIndex = Random.Range(0, validNewRoomCoords[chosenRoomIndex].Count);
-
-
-
+            //Debug.Log(validNewRoomCoords[chosenRoomIndex][chosenAnchorIndex]);
             return new Node(validNewRoomCoords[chosenRoomIndex][chosenAnchorIndex], currNode, validNewRooms[chosenRoomIndex]);
         }
     }
@@ -201,11 +223,10 @@ public class RoomGenerator : MonoBehaviour
     }
 
     //Updates room Count and adds the spaces of the newNode to the occupiedCoord list.
-    public void InitNode(Node newNode)
+    public void UpdateFill(Node newNode)
     {
         //NOTE: USER DEFINED CLASSES ARE PASSED BY VALUE NOT REFERENCE
         newNode.GetFill().ForEach(fillSquare => occupiedCoord.Add(fillSquare + newNode.GetPos()));
-        roomCount++;
     }
 
     //Convert The Nodes Into Stage GameObjects
@@ -218,6 +239,20 @@ public class RoomGenerator : MonoBehaviour
     public void GenerateRoom(GameObject room, Vector2 coords)
     {
         Instantiate(room, coords * roomSize, room.transform.rotation);
+    }
+
+    public void GenerateAllRooms(Node startR)
+    {
+        Instantiate(startR.GetRoom(), startR.GetPos() * roomSize, startR.GetRoom().transform.rotation);
+        if (startR.GetChildren().Count == 0)
+        {
+            return;
+        }
+        foreach (Node childNode in startR.GetChildren())
+        {
+            GenerateAllRooms(childNode);
+        }
+
     }
 
     public void OnDrawGizmos()
