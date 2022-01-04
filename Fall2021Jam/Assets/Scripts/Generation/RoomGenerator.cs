@@ -61,11 +61,6 @@ public class RoomGenerator : MonoBehaviour
     private int branchLength;
     private List<Node> leafList;
     private List<Node> nodeList;
-
-    //private GameObject prevRoom;
-    //private GameObject currRoom;
-
-
     void Start()
     {
         debug = new List<Vector3>();
@@ -83,11 +78,6 @@ public class RoomGenerator : MonoBehaviour
         startNode = new Node(new Vector2(0, 0), null, GenerateRoom(startRoom.gameObject, new Vector2(0, 0)));
         UpdateFill(startNode);
         nodeList.Add(startNode); // Add root node as an internal node
-        
-
-        //variables used for connecting passageways between two rooms
-        //prevRoom = null;
-        //currRoom = null;
 
         /*
         The basic procedure for generation is like this:
@@ -134,8 +124,6 @@ public class RoomGenerator : MonoBehaviour
                 nodeList.Add(currNode);
             }
         }
-        
-        GenerateAllRooms(startNode);
     }
 
     //Determine whether to branch or not given a branch length
@@ -153,46 +141,38 @@ public class RoomGenerator : MonoBehaviour
 
     public class Candidate
     {
-        public DoorCoord doorCoord;
+        public DoorCoord toDoorCoord;
+        public DoorCoord fromDoorCoord;
         public Room room;
         public Vector2 anchorPoint;
-        public Candidate(Room room, DoorCoord doorCoord, Vector2 anchorPoint)
+        public Candidate(Room room, DoorCoord fromDoorCoord, DoorCoord toDoorCoord, Vector2 anchorPoint)
         {
-            this.doorCoord = doorCoord;
+            this.fromDoorCoord = fromDoorCoord;
+            this.toDoorCoord = toDoorCoord;
             this.room = room;
             this.anchorPoint = anchorPoint;
         }
     }
     public Node FindNextRoom(Node currNode)
     {
-        //Choose a door to create a new room out of
-        //If no doors are available, return null (this will cause us to branch to some other Node, hopefully with valid doors)
-        DoorCoord currDoor = ChooseDoor(currNode); // Exit door to place new room
-        if (currDoor == null)
-        {
-            Debug.Log("TODO: No more open doors in the current room!");
-            return null;
-        }
-        nextDoorSquare = currDoor.NextCoord() + currNode.GetPos();
-        debug.Add(new Vector3(nextDoorSquare.x, nextDoorSquare.y, -5)); // for gizmos
-
-        // For every room, check every door alignment for whether or not we can place it somewhere.
         bool doorValid;
         Vector2 testAnchor = new Vector2(0, 0);
         List<Candidate> candidates = new List<Candidate>();
-        foreach (Room room in roomPool) {
-            foreach (DoorCoord door in room.GetDoorCoords()) {
-                if (door.GetDir() != -currDoor.GetDir()) continue;  // only look for doors that are aligned with the current one used in generation
-                doorValid = true;  // assume the current door is valid; if we find that placement fails, this will become false
-                testAnchor = nextDoorSquare - door.GetCoord();
-                foreach (Vector2 fillTest in room.GetFill()) {  // test the situation: if we placed a room down using this door for alignment, will it overlap?
-                    if (occupiedCoord.Contains(testAnchor + fillTest)) {
-                        doorValid = false;
-                        break;
+        foreach (DoorCoord currDoor in currNode.GetDoorCoords()) {
+            if (currDoor.GetFilled()) continue;     // ignore doors that have already been used (e.g. if curr node is a new branch root, some doors may be used already)
+            foreach (Room candRoom in roomPool) {
+                foreach (DoorCoord candDoor in candRoom.GetDoorCoords()) {
+                    if (candDoor.GetDir() != -currDoor.GetDir()) continue;  // only look for doors that are aligned with the current one used in generation
+                    doorValid = true;  // assume the current door is valid; if we find that placement fails, this will become false
+                    testAnchor = currDoor.NextCoord() + currNode.GetPos() - candDoor.GetCoord();
+                    foreach (Vector2 fillTest in candRoom.GetFill()) {  // test the situation: if we placed a room down using this door for alignment, will it overlap?
+                        if (occupiedCoord.Contains(testAnchor + fillTest)) {
+                            doorValid = false;
+                            break;
+                        }
                     }
-                }
-                if (doorValid) {
-                    candidates.Add(new Candidate(room, door, new Vector2(testAnchor.x, testAnchor.y)));
+                    if (doorValid)
+                        candidates.Add(new Candidate(candRoom, currDoor, candDoor, new Vector2(testAnchor.x, testAnchor.y)));
                 }
             }
         }
@@ -201,29 +181,12 @@ public class RoomGenerator : MonoBehaviour
             return null;
         }
         else {
-            currNode.GetRoom().EnableDoor(currDoor);    // opens door of current room
             Candidate chosen = candidates[Random.Range(0, candidates.Count)];   // chooses random room *template* from possible choices
+            currNode.GetRoom().UnblockDoor(chosen.fromDoorCoord);    // opens door of current room
             Room newRepRoom = GenerateRoom(chosen.room.gameObject, chosen.anchorPoint); // instantiates the appropriate prefab from our choice
-            newRepRoom.EnableDoor(chosen.doorCoord);    // 
+            newRepRoom.UnblockDoor(chosen.toDoorCoord);     // opens door of next room
+            debug.Add(new Vector3(chosen.anchorPoint.x, chosen.anchorPoint.y, -5)); // for gizmos
             return new Node(chosen.anchorPoint, currNode, newRepRoom);
-        }
-    }
-
-    //Chose an open door 
-    public DoorCoord ChooseDoor(Node currNode)
-    {
-        List<DoorCoord> validDoors = new List<DoorCoord>();
-
-        foreach (DoorCoord door in currNode.GetDoorCoords()) {
-            if (!door.GetFilled() && !occupiedCoord.Contains(door.NextCoord() + currNode.GetPos())) {
-                validDoors.Add(door);
-            }
-        }
-
-        if (validDoors.Count == 0) return null;
-        else {
-            int chosenDoorIndex = Random.Range(0, validDoors.Count);
-            return validDoors[chosenDoorIndex];
         }
     }
 
@@ -244,22 +207,14 @@ public class RoomGenerator : MonoBehaviour
         GameObject spawnedRoom = Instantiate(templateRoom, coords * roomSize, templateRoom.transform.rotation);
         return spawnedRoom.GetComponent<Room>();
     }
-
-    /// <summary>
-    /// Places Room prefabs onto world space by traversing the generated Node graph recursively.
-    /// Also configures the placed room's doors to blocked or open.
-    /// </summary>
-    /// <param name="startR"></param>
-    public void GenerateAllRooms(Node startR)
+    public void DrawAllGizmos(Node startR)
     {
-        Instantiate(startR.GetRoom(), startR.GetPos() * roomSize, startR.GetRoom().transform.rotation);
-        if (startR.GetChildren().Count == 0)
-        {
+        if (startR.GetChildren().Count == 0) {
             return;
         }
-        foreach (Node childNode in startR.GetChildren())
-        {
-            GenerateAllRooms(childNode);
+        foreach (Node childNode in startR.GetChildren()) {
+            Gizmos.DrawLine(startR.GetPos() * roomSize, childNode.GetPos() * roomSize);
+            DrawAllGizmos(childNode);
         }
 
     }
@@ -267,7 +222,6 @@ public class RoomGenerator : MonoBehaviour
     public void OnDrawGizmos()
     {
         if (!Application.isPlaying) return;
-        for (int i = 0; i < debug.Count - 1; i++)
-            Gizmos.DrawLine(debug[i] * roomSize, debug[i+1] * roomSize);
+        if (startNode != null) DrawAllGizmos(startNode);
     }
 }

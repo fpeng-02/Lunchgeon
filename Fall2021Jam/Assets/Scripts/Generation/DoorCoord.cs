@@ -13,7 +13,7 @@ public class DoorCoord
     [SerializeField] private Vector2 doorDir;    //direction the door is facing (make sure this is (+-1,0) or (0,+-1)) 
     [SerializeField] private GameObject physicalDoor;
     [SerializeField] private GameObject physicalFiller;
-    private bool filled;        //is the door filled already? (default false)
+    private bool filled = true;        //is the door filled already? (default false)
 
     //constructor
     public DoorCoord(Vector2 coord, Vector2 dir)
@@ -38,7 +38,7 @@ public class DoorCoord
     /// (and acts like a real door!)
     /// Based on our current generation scheme, there shouldn't be any reason to "turn off" walls, but we can add that method if we need to.
     /// </summary>
-    public void EnablePhysicalDoor() { physicalFiller.SetActive(false); }
+    public void UnblockDoor() { physicalFiller.SetActive(false); filled = false; }
 
     //returns the grid that the door is pointing to.
     public Vector2 NextCoord()

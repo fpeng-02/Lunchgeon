@@ -22,7 +22,7 @@ public class Room : MonoBehaviour
     /// Configures a room to enable a door specfied by an index of the doorCoord List. 
     /// </summary>
     /// <param name="doorIndex"></param>
-    public void EnableDoor(int doorIndex) { doorCoord[doorIndex].EnablePhysicalDoor(); }
+    public void UnblockDoor(int doorIndex) { doorCoord[doorIndex].UnblockDoor(); }
 
     
     /// <summary>
@@ -31,27 +31,13 @@ public class Room : MonoBehaviour
     /// (there are no two doors with the exact same coord & dir, which is a reasonable assumption).
     /// </summary>
     /// <param name="doorCoord"></param>
-    public void EnableDoor(DoorCoord doorCoord) 
+    public void UnblockDoor(DoorCoord doorCoord) 
     {
         foreach(DoorCoord testDoorCoord in this.doorCoord) {
              if (testDoorCoord.GetCoord().Equals(doorCoord.GetCoord()) && testDoorCoord.GetDir().Equals(doorCoord.GetDir())) {
-                testDoorCoord.EnablePhysicalDoor();
+                testDoorCoord.UnblockDoor();
                 break;
             }
         }
     }
-
-    /*public List<Vector2> GetOffsetCoord(Vector2 offset)
-    {
-        List<Vector2> newList = new List<Vector2>(coord);
-        newList.ForEach(c => c = c + offset);
-        return newList;
-    }
-
-    public List<DoorCoord> GetOffsetDoorCoord(Vector2 offset)
-    {
-        List<DoorCoord> newList = new List<DoorCoord>(doorCoord);
-        newList.ForEach(c => c.setCoord(c.GetCoord() + offset));
-        return newList;
-    }*/
 }
