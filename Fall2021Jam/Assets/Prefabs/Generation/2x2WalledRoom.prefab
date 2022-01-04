@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 249386403991258370}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5611537930958326241}
@@ -156,37 +156,36 @@ MonoBehaviour:
   doorCoord:
   - doorCoord: {x: 0, y: 0}
     doorDir: {x: 0, y: -1}
-    PhysicalDoor: {fileID: 5611537930958326243}
-    PhysicalFiller: {fileID: 3739908537592801196}
+    physicalDoor: {fileID: 5611537930958326243}
+    physicalFiller: {fileID: 3739908537592801196}
   - doorCoord: {x: 0, y: 0}
     doorDir: {x: -1, y: 0}
-    PhysicalDoor: {fileID: 7887699357709608181}
-    PhysicalFiller: {fileID: 668971747193829465}
+    physicalDoor: {fileID: 7887699357709608181}
+    physicalFiller: {fileID: 668971747193829465}
   - doorCoord: {x: 0, y: 1}
     doorDir: {x: -1, y: 0}
-    PhysicalDoor: {fileID: 835637796817441337}
-    PhysicalFiller: {fileID: 6939672517584815676}
+    physicalDoor: {fileID: 835637796817441337}
+    physicalFiller: {fileID: 6939672517584815676}
   - doorCoord: {x: 0, y: 1}
     doorDir: {x: 0, y: 1}
-    PhysicalDoor: {fileID: 8782660567519166197}
-    PhysicalFiller: {fileID: 9117371296677389377}
+    physicalDoor: {fileID: 8782660567519166197}
+    physicalFiller: {fileID: 9117371296677389377}
   - doorCoord: {x: 1, y: 1}
     doorDir: {x: 0, y: 1}
-    PhysicalDoor: {fileID: 6474928422857410913}
-    PhysicalFiller: {fileID: 1860124967573168757}
+    physicalDoor: {fileID: 6474928422857410913}
+    physicalFiller: {fileID: 1860124967573168757}
   - doorCoord: {x: 1, y: 1}
     doorDir: {x: 1, y: 0}
-    PhysicalDoor: {fileID: 3536643052417188894}
-    PhysicalFiller: {fileID: 594416796316074957}
+    physicalDoor: {fileID: 3536643052417188894}
+    physicalFiller: {fileID: 594416796316074957}
   - doorCoord: {x: 1, y: 0}
     doorDir: {x: 1, y: 0}
-    PhysicalDoor: {fileID: 3965487339944768464}
-    PhysicalFiller: {fileID: 5840631193024388565}
+    physicalDoor: {fileID: 3965487339944768464}
+    physicalFiller: {fileID: 5840631193024388565}
   - doorCoord: {x: 1, y: 0}
     doorDir: {x: 0, y: -1}
-    PhysicalDoor: {fileID: 4675072380347285972}
-    PhysicalFiller: {fileID: 7791213070014271232}
-  fillerWalls: []
+    physicalDoor: {fileID: 4675072380347285972}
+    physicalFiller: {fileID: 7791213070014271232}
 --- !u!1 &7010685589953214175
 GameObject:
   m_ObjectHideFlags: 0
@@ -1037,7 +1036,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4443437237875631474, guid: a8e283127820a034589c8ff06288c53d, type: 3}
       propertyPath: m_LocalScale.y
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4443437237875631474, guid: a8e283127820a034589c8ff06288c53d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1045,7 +1044,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4443437237875631474, guid: a8e283127820a034589c8ff06288c53d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 12.5
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 4443437237875631474, guid: a8e283127820a034589c8ff06288c53d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1103,7 +1102,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4443437237875631474, guid: a8e283127820a034589c8ff06288c53d, type: 3}
       propertyPath: m_LocalScale.y
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4443437237875631474, guid: a8e283127820a034589c8ff06288c53d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1111,7 +1110,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4443437237875631474, guid: a8e283127820a034589c8ff06288c53d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 12.5
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 4443437237875631474, guid: a8e283127820a034589c8ff06288c53d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1506,7 +1505,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4443437237875631474, guid: a8e283127820a034589c8ff06288c53d, type: 3}
       propertyPath: m_LocalScale.y
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4443437237875631474, guid: a8e283127820a034589c8ff06288c53d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1514,7 +1513,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4443437237875631474, guid: a8e283127820a034589c8ff06288c53d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.5
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 4443437237875631474, guid: a8e283127820a034589c8ff06288c53d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2430,7 +2429,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4443437237875631474, guid: a8e283127820a034589c8ff06288c53d, type: 3}
       propertyPath: m_LocalScale.y
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4443437237875631474, guid: a8e283127820a034589c8ff06288c53d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2438,7 +2437,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4443437237875631474, guid: a8e283127820a034589c8ff06288c53d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.5
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 4443437237875631474, guid: a8e283127820a034589c8ff06288c53d, type: 3}
       propertyPath: m_LocalPosition.z
