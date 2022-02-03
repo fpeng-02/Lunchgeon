@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30a4d44af64fcce4a97ca428e616a5e6, type: 3}
-  m_Name: PlayerInventory
+  m_Script: {fileID: 11500000, guid: c1268d33df02b454d8135a66b05bece6, type: 3}
+  m_Name: Berry
   m_EditorClassIdentifier: 
-  slots:
-    slots: []
-    containerCapacity: 10
-  playerInventorySize: 0
+  sprite: {fileID: 21300000, guid: 151b4aae03e53364f9e1c7efba15e05d, type: 3}
+  stackCapacity: 16

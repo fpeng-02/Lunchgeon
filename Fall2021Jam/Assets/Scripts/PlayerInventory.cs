@@ -12,9 +12,12 @@ public class PlayerInventory : ScriptableObject
     [SerializeField]
     private ItemContainer slots;
 
+    [SerializeField]
+    private int playerInventorySize;
+
     void OnCreate()
     {
-        if (slots == null) slots = new ItemContainer();
+        if (slots == null) slots = new ItemContainer(playerInventorySize);
     }
 
     public ItemContainer GetItemContainer() { return slots; }

@@ -12,20 +12,18 @@ using UnityEngine;
 [System.Serializable]
 public class ItemContainer
 {
-    [System.Serializable]
-    public class Slot
-    {
-        public Item item;
-        public int amount = 0;
 
-        public Slot(Item item) { this.item = item; this.amount = 1; }
-    }
-
-    [SerializeField] 
-    private List<Slot> slots;
+    [field: SerializeField] 
+    public List<Slot> Slots {get; set;}
 
     [SerializeField] 
     private int containerCapacity;
+
+
+    public ItemContainer(int containerCapacity) {
+        this.Slots = new List<Slot>();
+        this.containerCapacity = containerCapacity;
+    }
 
     /// <summary>
     /// Adds an item to the item container.
@@ -36,18 +34,18 @@ public class ItemContainer
     public bool AddItem(Item item)
     {
         // First, attempt to find a slot to stack on
-        foreach (Slot slot in slots) {
-            if (slot.amount < slot.item.GetStackCapacity() && slot.item == item) {
+        foreach (Slot slot in Slots) {
+            if (slot.amount < slot.SlotItem.GetStackCapacity() && slot.SlotItem == item) {
                 slot.amount++;
                 return true;
             }
         }
 
         // If this is reached, nothing was found to stack -- try adding another slot
-        if (slots.Count >= containerCapacity) return false; // fail if continer is full in terms of slots
+        if (Slots.Count >= containerCapacity) return false; // fail if continer is full in terms of slots
 
         Slot newSlot = new Slot(item);
-        slots.Add(newSlot);
+        Slots.Add(newSlot);
         return true;
     }
 
