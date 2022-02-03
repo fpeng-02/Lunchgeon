@@ -9,16 +9,14 @@ using UnityEngine;
 [CreateAssetMenu]
 public class PlayerInventory : ScriptableObject
 {
-    [SerializeField]
-    private ItemContainer slots;
+    [field: SerializeField]
+    public ItemContainer InventoryContainer {get; private set;}
 
     [SerializeField]
-    private int playerInventorySize;
+    private int playerInventorySize;  // just in case this is needed; this number isn't actually used usually but should equal the capacity of the InventoryContainer
 
     void OnCreate()
     {
-        if (slots == null) slots = new ItemContainer(playerInventorySize);
+        if (InventoryContainer == null) InventoryContainer = new ItemContainer(playerInventorySize);
     }
-
-    public ItemContainer GetItemContainer() { return slots; }
 }

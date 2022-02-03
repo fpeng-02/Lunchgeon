@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30a4d44af64fcce4a97ca428e616a5e6, type: 3}
   m_Name: PlayerInventory
   m_EditorClassIdentifier: 
-  slots:
-    slots: []
+  <InventoryContainer>k__BackingField:
+    <Slots>k__BackingField: []
     containerCapacity: 10
-  playerInventorySize: 0
+  playerInventorySize: 10

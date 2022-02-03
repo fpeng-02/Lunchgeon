@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1268d33df02b454d8135a66b05bece6, type: 3}
   m_Name: TestDrop1
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: b46cc166b4fd3fb4d809f857fcf60784, type: 3}
-  stackCapacity: 3
+  <ItemSprite>k__BackingField: {fileID: 21300000, guid: b46cc166b4fd3fb4d809f857fcf60784, type: 3}
+  <StackCapacity>k__BackingField: 16

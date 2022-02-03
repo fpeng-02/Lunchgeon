@@ -23,7 +23,7 @@ public class Player : Entity
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        inventory = inventorySO.GetItemContainer();
+        inventory = inventorySO.InventoryContainer;
     }
 
     // Update is called once per frame

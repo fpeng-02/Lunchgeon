@@ -24,7 +24,7 @@ public class ItemDrop : MonoBehaviour
     public void InitializeItemDrop(Item item)
     {
         this.item = item;
-        spriteRenderer.sprite = item.GetSprite();
+        spriteRenderer.sprite = item.ItemSprite;
     }
 
     /// <summary>
@@ -34,6 +34,7 @@ public class ItemDrop : MonoBehaviour
     /// <param name="col"></param>
     public void OnTriggerEnter2D(Collider2D col)
     {
+        Debug.Log("XD");
         if (col.transform.gameObject.CompareTag("Player")) {
             ItemContainer playerInventory = col.transform.gameObject.GetComponent<Player>().GetPlayerInventory();
             if (playerInventory.AddItem(item)) Destroy(gameObject);  // destroy the item drop only if adding the item succeeded
