@@ -346,6 +346,7 @@ GameObject:
   - component: {fileID: 196659859}
   - component: {fileID: 196659861}
   - component: {fileID: 196659860}
+  - component: {fileID: 196659862}
   m_Layer: 5
   m_Name: Inventory
   m_TagString: Untagged
@@ -412,6 +413,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 196659858}
   m_CullTransparentMesh: 1
+--- !u!114 &196659862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 196659858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 777ad1b241e271141bf5ba2e12c62691, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &320157951 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4443437237875631474, guid: a8e283127820a034589c8ff06288c53d, type: 3}
@@ -856,6 +869,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5714775178210010853, guid: 3081a5d150ff8b446b355af827f50fde, type: 3}
+      propertyPath: playerInventoryUI
+      value: 
+      objectReference: {fileID: 196659862}
+    - target: {fileID: 5714775178210010853, guid: 3081a5d150ff8b446b355af827f50fde, type: 3}
+      propertyPath: <InventoryUI>k__BackingField
+      value: 
+      objectReference: {fileID: 196659862}
     - target: {fileID: 6509762001698211879, guid: 3081a5d150ff8b446b355af827f50fde, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -1569,7 +1590,7 @@ GameObject:
   - component: {fileID: 2067432855}
   - component: {fileID: 2067432854}
   - component: {fileID: 2067432856}
-  - component: {fileID: 2067432857}
+  - component: {fileID: 2067432858}
   m_Layer: 5
   m_Name: ItemsParent
   m_TagString: Untagged
@@ -1658,7 +1679,7 @@ MonoBehaviour:
   m_Spacing: {x: 25, y: 25}
   m_Constraint: 0
   m_ConstraintCount: 2
---- !u!114 &2067432857
+--- !u!114 &2067432858
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1667,7 +1688,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2067432852}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 777ad1b241e271141bf5ba2e12c62691, type: 3}
+  m_Script: {fileID: 11500000, guid: e35a9fabd82ba2845834c6f0f72c432a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerInventory: {fileID: 11400000, guid: a45a4b0abc4d7154090629541ff2f0a1, type: 2}

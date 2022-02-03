@@ -14,11 +14,8 @@ public class PlayerInventorySlotUI : MonoBehaviour
     {
         image = GetComponentInChildren<Image>();
         text = GetComponentInChildren<Text>();
-        
+
         SlotItem = slot.SlotItem;
-        Debug.Log(SlotItem == null);
-        Debug.Log(image == null);
-        Debug.Log(text == null);
         image.sprite = SlotItem.ItemSprite;
         text.text = slot.amount.ToString();
     }

@@ -12,18 +12,18 @@ public class Player : Entity
     [SerializeField] private Attack atk1;
     [SerializeField] private PlayerInventory inventorySO;
     [SerializeField] private float reach;
-    private ItemContainer inventory;
+    public ItemContainer Inventory {get; private set;}
 
-    public ItemContainer GetPlayerInventory() { return inventory; }
+    [field: SerializeField] public PlayerInventoryUI InventoryUI {get; private set;}
 
-    
+
 
 
     // Start is called before the first frame update
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        inventory = inventorySO.InventoryContainer;
+        Inventory = inventorySO.InventoryContainer;
     }
 
     // Update is called once per frame
@@ -44,6 +44,11 @@ public class Player : Entity
             LayerMask mask = LayerMask.GetMask("Interactable");
             RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, reach, mask);
             hit.collider?.gameObject.GetComponent<Interactable>().OnInteract();
+        }
+
+        if (Input.GetButtonDown("OpenInventory"))
+        {
+            InventoryUI.ToggleEnable();
         }
 
         h = Input.GetAxisRaw("Horizontal");

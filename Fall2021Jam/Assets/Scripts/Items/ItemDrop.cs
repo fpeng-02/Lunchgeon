@@ -34,10 +34,14 @@ public class ItemDrop : MonoBehaviour
     /// <param name="col"></param>
     public void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log("XD");
         if (col.transform.gameObject.CompareTag("Player")) {
-            ItemContainer playerInventory = col.transform.gameObject.GetComponent<Player>().GetPlayerInventory();
-            if (playerInventory.AddItem(item)) Destroy(gameObject);  // destroy the item drop only if adding the item succeeded
+            Player player = col.transform.gameObject.GetComponent<Player>();
+            ItemContainer playerInventory = player.Inventory;
+            if (playerInventory.AddItem(item)) 
+            {
+                Destroy(gameObject);  // destroy the item drop only if adding the item succeeded
+                player.InventoryUI.Refresh();
+            }
         }
     }
 
@@ -49,8 +53,13 @@ public class ItemDrop : MonoBehaviour
     public void OnTriggerStay2D(Collider2D col)
     {
         if (col.transform.gameObject.CompareTag("Player")) {
-            ItemContainer playerInventory = col.transform.gameObject.GetComponent<Player>().GetPlayerInventory();
-            if (playerInventory.AddItem(item)) Destroy(gameObject);  // destroy the item drop only if adding the item succeeded
+            Player player = col.transform.gameObject.GetComponent<Player>();
+            ItemContainer playerInventory = player.Inventory;
+            if (playerInventory.AddItem(item)) 
+            {
+                Destroy(gameObject);  // destroy the item drop only if adding the item succeeded
+                player.InventoryUI.Refresh();
+            }
         }
     }
 }

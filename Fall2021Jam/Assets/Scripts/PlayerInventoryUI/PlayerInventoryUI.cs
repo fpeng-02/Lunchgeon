@@ -4,20 +4,26 @@ using UnityEngine;
 
 public class PlayerInventoryUI : MonoBehaviour
 {
-    [SerializeField] private PlayerInventory playerInventory;
-    [SerializeField] private GameObject inventorySlotGo;
+    private bool inventoryIsOpen;
+    private InventorySlotsGenerator gen;
 
-    public void GenerateSlots() 
+    void Start()
     {
-        List<Slot> slots = playerInventory.InventoryContainer.Slots;
-        foreach (Slot slot in slots) {
-            GameObject instGo = Instantiate(inventorySlotGo);
-            instGo?.GetComponent<PlayerInventorySlotUI>()?.InitializeUISlot(slot);
-            instGo.transform.SetParent(this.transform);
+        gen = GetComponentInChildren<InventorySlotsGenerator>();
+        this.gameObject.SetActive(false);
+    }
+
+    public void ToggleEnable() 
+    {
+        if (inventoryIsOpen) {
+            this.gameObject.SetActive(false);
+            inventoryIsOpen = false;
+        } else {
+            gen.RegenerateSlots();
+            this.gameObject.SetActive(true);
+            inventoryIsOpen = true;
         }
     }
 
-    void Start() {
-        GenerateSlots();
-    }
+    public void Refresh() { gen.RegenerateSlots(); }
 }
