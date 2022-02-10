@@ -921,6 +921,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8638678760428065037, guid: 3081a5d150ff8b446b355af827f50fde, type: 3}
+      propertyPath: m_SleepingMode
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3081a5d150ff8b446b355af827f50fde, type: 3}
 --- !u!4 &1166245666 stripped
@@ -1693,6 +1697,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInventory: {fileID: 11400000, guid: a45a4b0abc4d7154090629541ff2f0a1, type: 2}
   inventorySlotGo: {fileID: 5453957458743150309, guid: a28be8d1cbfcda44598158240ccf3090, type: 3}
+  itemDropGo: {fileID: 8846358157116065549, guid: 5e406a5428411c64a961818e6bf52b1d, type: 3}
+  pickupCooldown: 1
 --- !u!1001 &8846358157586260886
 PrefabInstance:
   m_ObjectHideFlags: 0

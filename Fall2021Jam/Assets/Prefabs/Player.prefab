@@ -51,6 +51,8 @@ MonoBehaviour:
   baseMoveSpeed: 10
   atk1: {fileID: 4413491533130074750}
   inventorySO: {fileID: 11400000, guid: a45a4b0abc4d7154090629541ff2f0a1, type: 2}
+  reach: 0
+  <InventoryUI>k__BackingField: {fileID: 0}
 --- !u!50 &8638678760428065037
 Rigidbody2D:
   serializedVersion: 4
@@ -69,7 +71,7 @@ Rigidbody2D:
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!212 &85974265331999927

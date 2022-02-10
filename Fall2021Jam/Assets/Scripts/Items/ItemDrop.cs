@@ -11,6 +11,7 @@ public class ItemDrop : MonoBehaviour
     [SerializeField]
     private Item item;  // the actual item data the GO is holding
     private SpriteRenderer spriteRenderer;
+    private float pickupCooldown = 0;  // when player drops item, should wait to pick up
 
     void Awake()
     {
@@ -18,11 +19,12 @@ public class ItemDrop : MonoBehaviour
     }
 
     /// <summary>
-    /// ItemDrops are going to be Instantiated upon enemy deaths; 
+    /// ItemDrops instantiation with configurable pickup cooldown (default 0)
     /// </summary>
     /// <param name="item"></param>
-    public void InitializeItemDrop(Item item)
+    public void InitializeItemDrop(Item item, float pickupCooldown = 0)
     {
+        this.pickupCooldown = pickupCooldown;
         this.item = item;
         spriteRenderer.sprite = item.ItemSprite;
     }
@@ -34,6 +36,7 @@ public class ItemDrop : MonoBehaviour
     /// <param name="col"></param>
     public void OnTriggerEnter2D(Collider2D col)
     {
+        if (pickupCooldown > 0) return;
         if (col.transform.gameObject.CompareTag("Player")) {
             Player player = col.transform.gameObject.GetComponent<Player>();
             ItemContainer playerInventory = player.Inventory;
@@ -52,6 +55,8 @@ public class ItemDrop : MonoBehaviour
     /// <param name="col"></param>
     public void OnTriggerStay2D(Collider2D col)
     {
+        if (pickupCooldown > 0) return;
+        Debug.Log("he!");
         if (col.transform.gameObject.CompareTag("Player")) {
             Player player = col.transform.gameObject.GetComponent<Player>();
             ItemContainer playerInventory = player.Inventory;
@@ -60,6 +65,13 @@ public class ItemDrop : MonoBehaviour
                 Destroy(gameObject);  // destroy the item drop only if adding the item succeeded
                 player.InventoryUI.Refresh();
             }
+        }
+    }
+
+    void Update()
+    {
+        if (pickupCooldown > 0) {
+            pickupCooldown -= Time.deltaTime;
         }
     }
 }
