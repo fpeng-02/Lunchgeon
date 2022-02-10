@@ -13,14 +13,15 @@ using UnityEngine;
 public class ItemContainer
 {
 
-    [field: SerializeField] 
-    public List<Slot> Slots {get; set;}
+    [field: SerializeField]
+    public List<Slot> Slots { get; set; }
 
-    [SerializeField] 
+    [SerializeField]
     private int containerCapacity;
 
 
-    public ItemContainer(int containerCapacity) {
+    public ItemContainer(int containerCapacity)
+    {
         this.Slots = new List<Slot>();
         this.containerCapacity = containerCapacity;
     }
@@ -34,8 +35,10 @@ public class ItemContainer
     public bool AddItem(Item item)
     {
         // First, attempt to find a slot to stack on
-        foreach (Slot slot in Slots) {
-            if (slot.amount < slot.SlotItem.StackCapacity && slot.SlotItem == item) {
+        foreach (Slot slot in Slots)
+        {
+            if (slot.amount < slot.SlotItem.StackCapacity && slot.SlotItem == item)
+            {
                 slot.amount++;
                 return true;
             }
@@ -49,8 +52,19 @@ public class ItemContainer
         return true;
     }
 
-    public void RemoveItem()
+    public void RemoveStack(int index)
     {
-
+        if (index >= 0 && index < Slots.Count)
+        {
+            Slots.RemoveAt(index);
+        }
+    }
+    public void RemoveItem(int index)
+    {
+        if (index >= 0 && index < Slots.Count)
+        {
+            if (Slots[index].amount == 1) RemoveStack(index);
+            else Slots[index].amount--;
+        }
     }
 }

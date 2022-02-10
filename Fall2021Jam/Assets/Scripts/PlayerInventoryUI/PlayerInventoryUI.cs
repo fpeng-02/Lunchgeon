@@ -5,11 +5,11 @@ using UnityEngine;
 public class PlayerInventoryUI : MonoBehaviour
 {
     private bool inventoryIsOpen;
-    private InventorySlotsGenerator gen;
+    private InventorySlotsManager gen;
 
     void Start()
     {
-        gen = GetComponentInChildren<InventorySlotsGenerator>();
+        gen = GetComponentInChildren<InventorySlotsManager>();
         this.gameObject.SetActive(false);
     }
 
