@@ -29,49 +29,34 @@ public class ItemDrop : MonoBehaviour
         spriteRenderer.sprite = item.ItemSprite;
     }
 
-    /// <summary>
-    /// First check if the *player* is trying to pick up the item by checking the collider.
-    /// On pickup, try to add the item to the player's inventory.
-    /// </summary>
-    /// <param name="col"></param>
+    // Attempt to add item to col (made here because it was basically duped in OnTriggerEnter/Stay)
+    void AttemptPickup(Collider2D col)
+    {
+        if (pickupCooldown > 0) return;
+        if (col.transform.gameObject.CompareTag("Player"))
+        {
+            Player player = col.transform.gameObject.GetComponent<Player>();
+            ItemContainer playerInventory = player.Inventory;
+            if (playerInventory.AddItem(item))
+            {
+                Destroy(gameObject);  // destroy the item drop only if adding the item succeeded
+                player.InventoryUI.Refresh();
+            }
+        }
+
+    }
     public void OnTriggerEnter2D(Collider2D col)
     {
-        if (pickupCooldown > 0) return;
-        if (col.transform.gameObject.CompareTag("Player")) {
-            Player player = col.transform.gameObject.GetComponent<Player>();
-            ItemContainer playerInventory = player.Inventory;
-            if (playerInventory.AddItem(item)) 
-            {
-                Destroy(gameObject);  // destroy the item drop only if adding the item succeeded
-                player.InventoryUI.Refresh();
-            }
-        }
+        AttemptPickup(col);
     }
 
-    /// <summary>
-    /// The exact same functionality as OnTriggerEnter
-    /// Duplicated because the player make space in their inventory while standing on a dropped item.
-    /// </summary>
-    /// <param name="col"></param>
     public void OnTriggerStay2D(Collider2D col)
     {
-        if (pickupCooldown > 0) return;
-        Debug.Log("he!");
-        if (col.transform.gameObject.CompareTag("Player")) {
-            Player player = col.transform.gameObject.GetComponent<Player>();
-            ItemContainer playerInventory = player.Inventory;
-            if (playerInventory.AddItem(item)) 
-            {
-                Destroy(gameObject);  // destroy the item drop only if adding the item succeeded
-                player.InventoryUI.Refresh();
-            }
-        }
+        AttemptPickup(col);
     }
 
     void Update()
     {
-        if (pickupCooldown > 0) {
-            pickupCooldown -= Time.deltaTime;
-        }
+        if (pickupCooldown > 0) pickupCooldown -= Time.deltaTime;
     }
 }
