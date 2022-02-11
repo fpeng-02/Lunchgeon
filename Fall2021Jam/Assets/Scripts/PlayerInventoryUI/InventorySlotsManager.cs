@@ -69,4 +69,21 @@ public class InventorySlotsManager : MonoBehaviour
             index++;
         }
     }
+
+    void Update() 
+    {
+        // Don't try to do anything with the selected item if nothing is selected
+        if (currentSelect < 0) return;
+
+        if (Input.GetButtonDown("EquipItem"))
+        {
+            // TODO: active items, probably need a subclass of Item and stuff
+            Debug.Log("Using item slot " + currentSelect.ToString());
+        }
+        else if (Input.GetButtonDown("DropItem"))
+        {
+            if (Input.GetKey(KeyCode.LeftControl)) RemoveStack(currentSelect); // Not sure if it should just be stuck to LCTRL
+            else RemoveItem(currentSelect);
+        }
+    }
 }
