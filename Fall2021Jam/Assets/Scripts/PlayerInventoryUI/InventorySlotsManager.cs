@@ -9,26 +9,39 @@ public class InventorySlotsManager : MonoBehaviour
     [SerializeField] private GameObject itemDropGo;
     [SerializeField] private float pickupCooldown;
 
-    public void RemoveItem(int slotIndex)
+    private int currentSelect = -1; // -1 means nothing is highlighted
+    private List<PlayerInventorySlotUI> slotUIs;
+
+    // Responds to UI request to remove a single item, updates PlayerInventory SO accordingly
+    public void RemoveItem(int idx)
     {
         Transform playerPosition = GameObject.Find("Player").transform;
         GameObject go = Instantiate(itemDropGo, playerPosition.position, Quaternion.identity);
-        go?.GetComponent<ItemDrop>()?.InitializeItemDrop(playerInventory.InventoryContainer.Slots[slotIndex].SlotItem, pickupCooldown);
-        playerInventory.InventoryContainer.RemoveItem(slotIndex);
+        go?.GetComponent<ItemDrop>()?.InitializeItemDrop(playerInventory.InventoryContainer.Slots[idx].SlotItem, pickupCooldown);
+        playerInventory.InventoryContainer.RemoveItem(idx);
         RegenerateSlots();
     }
 
-    public void RemoveStack(int slotIndex)
+    // Responds to UI request to remove a stack of items, updates PlayerInventory SO accordingly
+    public void RemoveStack(int idx)
     {
         Transform playerPosition = GameObject.Find("Player").transform;
         List<Slot> slots = playerInventory.InventoryContainer.Slots;
-        for (int i = 0; i < slots[slotIndex].amount; i++)
+        for (int i = 0; i < slots[idx].amount; i++)
         {
             GameObject go = Instantiate(itemDropGo, playerPosition.position, Quaternion.identity);
-            go?.GetComponent<ItemDrop>()?.InitializeItemDrop(slots[slotIndex].SlotItem, pickupCooldown);
+            go?.GetComponent<ItemDrop>()?.InitializeItemDrop(slots[idx].SlotItem, pickupCooldown);
         }
-        playerInventory.InventoryContainer.RemoveStack(slotIndex);
+        playerInventory.InventoryContainer.RemoveStack(idx);
         RegenerateSlots();
+    }
+
+    // Selects slot by index, "equip" or "drop" keys respond to newly selected slot
+    public void SelectSlot(int idx)
+    {
+        if (currentSelect >= 0) slotUIs[currentSelect].DisableHighlight();
+        slotUIs[idx].EnableHighlight();
+        this.currentSelect = idx;
     }
 
     public void RegenerateSlots()
@@ -39,13 +52,20 @@ public class InventorySlotsManager : MonoBehaviour
         {
             GameObject.Destroy(child.gameObject);
         }
+
+        // On a refresh, maybe the count of slots decreased, so selected might be off --- just reset it
+        currentSelect = -1;
+
         List<Slot> slots = playerInventory.InventoryContainer.Slots;
         int index = 0;
+        (slotUIs ??= new List<PlayerInventorySlotUI>()).Clear();
         foreach (Slot slot in slots)
         {
             GameObject instGo = Instantiate(inventorySlotGo);
-            instGo?.GetComponent<PlayerInventorySlotUI>()?.InitializeUISlot(slot, index, this);
             instGo.transform.SetParent(this.transform);
+            PlayerInventorySlotUI slotUI = instGo?.GetComponent<PlayerInventorySlotUI>();
+            slotUI?.InitializeUISlot(slot, index, this);
+            slotUIs.Add(slotUI);
             index++;
         }
     }

@@ -2,38 +2,58 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class PlayerInventorySlotUI : MonoBehaviour
+public class PlayerInventorySlotUI : MonoBehaviour, IPointerClickHandler
 {
     public Item SlotItem { get; set; }
 
-    private Image image;
-    private Text text;
+    [SerializeField] private Image image;
+    [SerializeField] private Image highlightImage;
+    [SerializeField] private Text text;
     private int slotIndex;
     private InventorySlotsManager ism;
 
     public void InitializeUISlot(Slot slot, int slotIndex, InventorySlotsManager ism)
     {
-        image = GetComponentInChildren<Image>();
-        text = GetComponentInChildren<Text>();
-
+        DisableHighlight();
         this.slotIndex = slotIndex;
         this.ism = ism;
-        SlotItem = slot.SlotItem;
+        this.SlotItem = slot.SlotItem;
         image.sprite = SlotItem.ItemSprite;
         text.text = slot.amount.ToString();
     }
 
-    public void OnClick()
+    public void EnableHighlight()
     {
-        if (Input.GetKey(KeyCode.LeftControl) == true)
-        {
-            ism.RemoveStack(this.slotIndex);
-        }
-        else
-        {
-            ism.RemoveItem(this.slotIndex);
-        }
+        Color tmp = highlightImage.color;
+        tmp.a = 1.0f;
+        highlightImage.color = tmp;
+    }
 
+    public void DisableHighlight()
+    {
+        Color tmp = highlightImage.color;
+        tmp.a = 0.0f;
+        highlightImage.color = tmp;
+    }
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            ism.SelectSlot(slotIndex);
+        }
+        else if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            if (Input.GetKey(KeyCode.LeftControl) == true)
+            {
+                ism.RemoveStack(this.slotIndex);
+            }
+            else
+            {
+                ism.RemoveItem(this.slotIndex);
+            }
+            return;
+        }
     }
 }
