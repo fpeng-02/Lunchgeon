@@ -37,6 +37,11 @@ public class PlayerInventorySlotUI : MonoBehaviour, IPointerClickHandler
         tmp.a = 0.0f;
         highlightImage.color = tmp;
     }
+
+    public void UpdateAmount(int newAmount)
+    {
+        text.text = newAmount.ToString();
+    }
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Left)

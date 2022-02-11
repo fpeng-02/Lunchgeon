@@ -17,9 +17,13 @@ public class InventorySlotsManager : MonoBehaviour
     {
         Transform playerPosition = GameObject.Find("Player").transform;
         GameObject go = Instantiate(itemDropGo, playerPosition.position, Quaternion.identity);
-        go?.GetComponent<ItemDrop>()?.InitializeItemDrop(playerInventory.InventoryContainer.Slots[idx].SlotItem, pickupCooldown);
+        List<Slot> slots = playerInventory.InventoryContainer.Slots;
+        go?.GetComponent<ItemDrop>()?.InitializeItemDrop(slots[idx].SlotItem, pickupCooldown);
+
+        int oldAmount = slots[idx].amount; // do this *before* the data update in playerInventory
         playerInventory.InventoryContainer.RemoveItem(idx);
-        RegenerateSlots();
+        if (oldAmount == 1) RegenerateSlots();  // kind of assumes previous line was successful
+        else slotUIs[idx].UpdateAmount(oldAmount - 1);
     }
 
     // Responds to UI request to remove a stack of items, updates PlayerInventory SO accordingly
