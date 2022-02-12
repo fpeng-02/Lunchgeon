@@ -7,6 +7,8 @@ public class Room : MonoBehaviour
     [SerializeField] private List<Vector2> fill;
     [SerializeField] private List<DoorCoord> doorCoord;
 
+    [SerializeField] private List<GameObject> presetLayouts;
+
     public List<Vector2> GetFill()
     {
         List<Vector2> newList = new List<Vector2>(fill);
@@ -40,4 +42,11 @@ public class Room : MonoBehaviour
             }
         }
     }
+
+    public void generatePreset()
+    {
+        if (presetLayouts.Count == 0) return;
+        Instantiate(presetLayouts[Random.Range(0, presetLayouts.Count)], this.transform);
+    }
+
 }

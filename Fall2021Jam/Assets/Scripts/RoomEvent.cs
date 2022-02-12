@@ -5,7 +5,7 @@ using UnityEngine;
 public class RoomEvent : MonoBehaviour
 {
 
-    [SerializeField] private GameObject enemy;
+    private List<EnemyData> enemyList;
     private int roomProgress;
     [SerializeField] private List<GameObject> doors;
     [SerializeField] private List<GameObject> roomTriggers;
@@ -18,14 +18,26 @@ public class RoomEvent : MonoBehaviour
         foreach (GameObject door in doors) {
             door.SetActive(false);
         }
+        enemyList = new List<EnemyData>();
     }
+
+    
 
     public void StartRoom()
     {
-        // Replace this with something more modular
-        GameObject go = Instantiate(enemy, this.transform);
-        go.GetComponent<Enemy>().SetRoomEvent(this);
-        roomProgress = 1;
+        Debug.Log("room start");
+        roomProgress = 0;
+        
+        // Basic implementation of spawning enemies based on preset
+        foreach (EnemyData enemyGO in enemyList)
+        {
+            GameObject go = Instantiate(enemyGO.GetEnemyGO(), this.transform);
+            go.GetComponent<Enemy>().SetRoomEvent(this);
+            go.transform.localPosition = enemyGO.GetEnemyPos();
+
+            roomProgress += 1;
+
+        }
 
         // Close doors
         foreach (GameObject door in doors) {
@@ -36,6 +48,11 @@ public class RoomEvent : MonoBehaviour
         foreach (GameObject roomTrigger in roomTriggers) {
             roomTrigger.SetActive(false);
         }
+    }
+
+    public void addEnemy(EnemyData newEnemyData)
+    {
+        enemyList.Add(newEnemyData);
     }
 
     public void ProgressRoom()

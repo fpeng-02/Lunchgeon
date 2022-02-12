@@ -185,6 +185,7 @@ public class RoomGenerator : MonoBehaviour
             currNode.GetRoom().UnblockDoor(chosen.fromDoorCoord);    // opens door of current room
             Room newRepRoom = GenerateRoom(chosen.room.gameObject, chosen.anchorPoint); // instantiates the appropriate prefab from our choice
             newRepRoom.UnblockDoor(chosen.toDoorCoord);     // opens door of next room
+            newRepRoom.generatePreset();
             debug.Add(new Vector3(chosen.anchorPoint.x, chosen.anchorPoint.y, -5)); // for gizmos
             return new Node(chosen.anchorPoint, currNode, newRepRoom);
         }
