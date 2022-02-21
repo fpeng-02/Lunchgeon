@@ -9,8 +9,7 @@ using UnityEngine;
 /// 
 /// (maybe can also combine both types into the same class, i.e. "cooldown = infinity" or something)
 /// </summary>
-[CreateAssetMenu(menuName = "Items/Usable")]
-public class Usable : Item
+public interface IUsableItem
 {
-
+    public void ItemAction();
 }
