@@ -43,7 +43,7 @@ public class Player : Entity
         {
             LayerMask mask = LayerMask.GetMask("Interactable");
             RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, reach, mask);
-            hit.collider?.gameObject.GetComponent<Interactable>().OnInteract();
+            hit.collider?.gameObject.GetComponent<IInteractable>().OnInteract();
         }
 
         if (Input.GetButtonDown("OpenInventory"))

@@ -1150,8 +1150,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1382823133}
   - component: {fileID: 1382823132}
-  - component: {fileID: 1382823134}
   - component: {fileID: 1382823135}
+  - component: {fileID: 1382823134}
   m_Layer: 6
   m_Name: BerryBush
   m_TagString: Untagged
@@ -1233,14 +1233,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1382823131}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 941b4478bc2517845bdfe12fe2a68864, type: 3}
+  m_Script: {fileID: 11500000, guid: a6d31fa77087923428de3987d5fbc1db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemContainer:
     <Slots>k__BackingField:
-    - <SlotItem>k__BackingField: {fileID: 0}
+    - <SlotItem>k__BackingField:
+        <BaseItem>k__BackingField: {fileID: 11400000, guid: 32a71097e4c3ffd4590448c30f3134bb, type: 2}
+        mods: []
       amount: 4
-    containerCapacity: 4
+    containerCapacity: 0
   unpickedSprite: {fileID: 21300000, guid: 620428cd3adb01846a7999b6843930c9, type: 3}
   pickedSprite: {fileID: 21300000, guid: cc6103fe5109e9c47b305cc5ff0e6a44, type: 3}
   itemDropGo: {fileID: 8846358157116065549, guid: 5e406a5428411c64a961818e6bf52b1d, type: 3}

@@ -13,9 +13,6 @@ MonoBehaviour:
   m_Name: PlayerInventory
   m_EditorClassIdentifier: 
   <InventoryContainer>k__BackingField:
-    <Slots>k__BackingField:
-    - <SlotItem>k__BackingField:
-        mods: []
-      amount: 1
+    <Slots>k__BackingField: []
     containerCapacity: 10
   playerInventorySize: 10

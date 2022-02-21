@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1268d33df02b454d8135a66b05bece6, type: 3}
   m_Name: TestDrop2
   m_EditorClassIdentifier: 
+  <ItemName>k__BackingField: TI2
   <ItemSprite>k__BackingField: {fileID: 21300000, guid: d4ce674cd71222f44962a78113ff680b, type: 3}
   <StackCapacity>k__BackingField: 16

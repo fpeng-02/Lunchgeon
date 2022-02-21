@@ -37,7 +37,7 @@ public class ItemContainer
         // First, attempt to find a slot to stack on
         foreach (Slot slot in Slots)
         {
-            if (slot.amount < slot.SlotItem.BaseItem.StackCapacity && slot.SlotItem == item)
+            if (slot.amount < slot.SlotItem.BaseItem.StackCapacity && slot.SlotItem.Equals(item))
             {
                 slot.amount++;
                 return true;

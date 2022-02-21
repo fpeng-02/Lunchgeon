@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BerryBush : Interactable
+public class Dispenser : MonoBehaviour, IInteractable
 {
     [SerializeField]
     private ItemContainer itemContainer;
@@ -20,7 +20,7 @@ public class BerryBush : Interactable
     private GameObject itemDropGo;
 
     // Interact with the berry bush => drop the berries
-    public override void OnInteract()
+    public void OnInteract()
     {
         if (!picked)
         {
@@ -34,7 +34,7 @@ public class BerryBush : Interactable
                 {
                     GameObject go = Instantiate(itemDropGo, this.transform.position, Quaternion.identity);
                     ItemDrop itemDrop = go.GetComponent<ItemDrop>();
-                    itemDrop?.InitializeItemDrop(dropSlot.SlotItem);
+                    itemDrop?.InitializeItemDrop(new ItemInstance(dropSlot.SlotItem.BaseItem));
                 }
             }
         }
