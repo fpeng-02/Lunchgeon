@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ItemSprite>k__BackingField: {fileID: 21300000, guid: 151b4aae03e53364f9e1c7efba15e05d, type: 3}
   <StackCapacity>k__BackingField: 16
+  <ItemName>k__BackingField: Berry

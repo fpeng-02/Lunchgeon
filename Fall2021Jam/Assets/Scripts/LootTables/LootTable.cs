@@ -27,7 +27,7 @@ public abstract class LootTable : ScriptableObject
     /// so I'm leaving this as an abstract method.
     /// </summary>
     /// <returns> ArrayList (of type Item) detailing which items were dropped </returns>
-    public abstract List<Item> GiveItems();
+    public abstract List<ItemInstance> GiveItems();
 
     /// <summary>
     /// Helper to give a random quantity of a drop.

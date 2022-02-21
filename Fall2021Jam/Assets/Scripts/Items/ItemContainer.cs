@@ -32,12 +32,12 @@ public class ItemContainer
     /// </summary>
     /// <param name="item"></param>
     /// <returns> true if adding succeeded, false if failed (i.e. no space for the item) </returns>
-    public bool AddItem(Item item)
+    public bool AddItem(ItemInstance item)
     {
         // First, attempt to find a slot to stack on
         foreach (Slot slot in Slots)
         {
-            if (slot.amount < slot.SlotItem.StackCapacity && slot.SlotItem == item)
+            if (slot.amount < slot.SlotItem.BaseItem.StackCapacity && slot.SlotItem == item)
             {
                 slot.amount++;
                 return true;

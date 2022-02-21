@@ -9,7 +9,7 @@ using UnityEngine;
 public class ItemDrop : MonoBehaviour
 {
     [SerializeField]
-    private Item item;  // the actual item data the GO is holding
+    private ItemInstance item;  // the actual item data the GO is holding
     private SpriteRenderer spriteRenderer;
     private float pickupCooldown = 0;  // when player drops item, should wait to pick up
 
@@ -22,11 +22,11 @@ public class ItemDrop : MonoBehaviour
     /// ItemDrops instantiation with configurable pickup cooldown (default 0)
     /// </summary>
     /// <param name="item"></param>
-    public void InitializeItemDrop(Item item, float pickupCooldown = 0)
+    public void InitializeItemDrop(ItemInstance item, float pickupCooldown = 0)
     {
         this.pickupCooldown = pickupCooldown;
         this.item = item;
-        spriteRenderer.sprite = item.ItemSprite;
+        spriteRenderer.sprite = item.BaseItem.ItemSprite;
     }
 
     // Attempt to add item to col (made here because it was basically duped in OnTriggerEnter/Stay)

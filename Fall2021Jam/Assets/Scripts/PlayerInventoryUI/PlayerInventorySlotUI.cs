@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class PlayerInventorySlotUI : MonoBehaviour, IPointerClickHandler
 {
-    public Item SlotItem { get; set; }
+    public ItemInstance SlotItem { get; set; }
 
     [SerializeField] private Image image;
     [SerializeField] private Image highlightImage;
@@ -20,7 +20,7 @@ public class PlayerInventorySlotUI : MonoBehaviour, IPointerClickHandler
         this.slotIndex = slotIndex;
         this.ism = ism;
         this.SlotItem = slot.SlotItem;
-        image.sprite = SlotItem.ItemSprite;
+        image.sprite = SlotItem.BaseItem.ItemSprite;
         text.text = slot.amount.ToString();
     }
 

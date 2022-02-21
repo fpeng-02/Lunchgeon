@@ -6,8 +6,8 @@ using UnityEngine;
 public class Slot
 {
     [field: SerializeField]
-    public Item SlotItem {get; set;}
+    public ItemInstance SlotItem {get; set;}
     public int amount = 0;
 
-    public Slot(Item item) { this.SlotItem = item; this.amount = 1; }
+    public Slot(ItemInstance item) { this.SlotItem = item; this.amount = 1; }
 }
