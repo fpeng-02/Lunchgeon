@@ -14,10 +14,7 @@ public class Player : Entity
     [SerializeField] private float reach;
     public ItemContainer Inventory {get; private set;}
 
-    [field: SerializeField] public PlayerInventoryUI InventoryUI {get; private set;}
-
-
-
+    [field: SerializeField] public InventoryUIManager InventoryUI {get; private set;}
 
     // Start is called before the first frame update
     void Awake()
@@ -48,7 +45,7 @@ public class Player : Entity
 
         if (Input.GetButtonDown("OpenInventory"))
         {
-            InventoryUI.ToggleEnable();
+            InventoryUI.ToggleBackpackEnable();
         }
 
         h = Input.GetAxisRaw("Horizontal");

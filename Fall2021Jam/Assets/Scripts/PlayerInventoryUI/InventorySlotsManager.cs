@@ -74,20 +74,28 @@ public class InventorySlotsManager : MonoBehaviour
         }
     }
 
-    void Update() 
-    {
-        // Don't try to do anything with the selected item if nothing is selected
-        if (currentSelect < 0) return;
+    // Just a nicer name that other classes can call
+    public void Refresh() { RegenerateSlots(); }
 
-        if (Input.GetButtonDown("EquipItem"))
-        {
-            // TODO: active items, probably need a subclass of Item and stuff
-            Debug.Log("Using item slot " + currentSelect.ToString());
-        }
-        else if (Input.GetButtonDown("DropItem"))
-        {
-            if (Input.GetKey(KeyCode.LeftControl)) RemoveStack(currentSelect); // Not sure if it should just be stuck to LCTRL
-            else RemoveItem(currentSelect);
-        }
+    public void DropSelectedItem() {
+        if (currentSelect < 0) return;
+        if (Input.GetKey(KeyCode.LeftControl)) RemoveStack(currentSelect); // Not sure if it should just be stuck to LCTRL
+        else RemoveItem(currentSelect);
+    }
+
+    public void EquipItemData() {
+        // take out the selected item
+        List<Slot> slots = playerInventory.InventoryContainer.Slots;
+        if (currentSelect < 0 || !(slots[currentSelect].SlotItem.BaseItem is IUsableItem)) return;
+        ItemInstance takenOut = slots[currentSelect].SlotItem;
+        Debug.Log(takenOut);
+
+        // put the current/old active item back into the inventory
+        if (playerInventory.ActiveItem != null)
+            playerInventory.InventoryContainer.AddItem(playerInventory.ActiveItem);
+        playerInventory.ActiveItem = takenOut;
+
+        playerInventory.InventoryContainer.RemoveItem(currentSelect);
+        RegenerateSlots();
     }
 }

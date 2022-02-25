@@ -13,6 +13,25 @@ MonoBehaviour:
   m_Name: PlayerInventory
   m_EditorClassIdentifier: 
   <InventoryContainer>k__BackingField:
-    <Slots>k__BackingField: []
+    <Slots>k__BackingField:
+    - <SlotItem>k__BackingField:
+        <BaseItem>k__BackingField: {fileID: 11400000, guid: 92089ca183ff50048af94d21c2a3ce87, type: 2}
+        mods: []
+      amount: 1
+    - <SlotItem>k__BackingField:
+        <BaseItem>k__BackingField: {fileID: 11400000, guid: 32a71097e4c3ffd4590448c30f3134bb, type: 2}
+        mods: []
+      amount: 4
+    - <SlotItem>k__BackingField:
+        <BaseItem>k__BackingField: {fileID: 11400000, guid: a66a9e3b61bd84d4ab8340aeaff12715, type: 2}
+        mods: []
+      amount: 1
+    - <SlotItem>k__BackingField:
+        <BaseItem>k__BackingField: {fileID: 11400000, guid: a66a9e3b61bd84d4ab8340aeaff12715, type: 2}
+        mods: []
+      amount: 1
     containerCapacity: 10
+  <ActiveItem>k__BackingField:
+    <BaseItem>k__BackingField: {fileID: 11400000, guid: a66a9e3b61bd84d4ab8340aeaff12715, type: 2}
+    mods: []
   playerInventorySize: 10

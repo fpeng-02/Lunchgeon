@@ -11,6 +11,8 @@ public class PlayerInventory : ScriptableObject
 {
     [field: SerializeField]
     public ItemContainer InventoryContainer {get; private set;}
+    [field: SerializeField] 
+    public ItemInstance ActiveItem {get; set;}
 
     [SerializeField]
     private int playerInventorySize;  // just in case this is needed; this number isn't actually used usually but should equal the capacity of the InventoryContainer
