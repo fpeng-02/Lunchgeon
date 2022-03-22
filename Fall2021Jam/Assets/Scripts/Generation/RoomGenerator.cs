@@ -10,10 +10,11 @@ public class RoomGenerator : MonoBehaviour
     public class Node
     {
         //local vars
-        private Vector2 pos;       //location of the lower left corner of this room, in global space
-        private Node parent;                //parent of the node
-        private List<Node> children;        //children of the node
-        private Room repRoom;               //Room gameobject the node represents
+        private Vector2 pos;                // location of the lower left corner of this room, in global space
+        private Node parent;                // parent of the node
+        private List<Node> children;        // children of the node
+        private Room repRoom;               // Room gameobject the node represents
+        private List<DoorCoord> doorConfig; // copy of the list of DoorCoord of repRoom; tweaked around to turn doors on/off
 
         //constructor 
         public Node(Vector2 pos, Node parent, Room repRoom)
@@ -27,7 +28,6 @@ public class RoomGenerator : MonoBehaviour
         //Getters
         public Vector2 GetPos() { return this.pos; }
         public List<DoorCoord> GetDoorCoords() { return repRoom.GetDoorCoords(); }
-        public List<Vector2> GetFill() { return repRoom.GetFill(); }
         public Room GetRoom() { return this.repRoom; }
         public List<Node> GetChildren() { return this.children; }
 
@@ -41,7 +41,7 @@ public class RoomGenerator : MonoBehaviour
     }
 
     [SerializeField] private float roomSize;
-    [SerializeField] private List<Room> rooms;
+    [SerializeField] private List<Room> roomPool;
     [SerializeField] private Room startRoom;
     [SerializeField] private int maxRoom;
     [SerializeField] private float branchIncrement;
@@ -61,11 +61,6 @@ public class RoomGenerator : MonoBehaviour
     private int branchLength;
     private List<Node> leafList;
     private List<Node> nodeList;
-
-    private GameObject prevRoom;
-    private GameObject currRoom;
-
-
     void Start()
     {
         debug = new List<Vector3>();
@@ -74,53 +69,54 @@ public class RoomGenerator : MonoBehaviour
 
     public void GenerateNodes()
     {
-        //create first start room node
-        startNode = new Node(new Vector2(0, 0), null, startRoom);
-        currNode = startNode;
-        Node nextNode = null;
-        //GenerateRoom(startNode.GetRoom().gameObject, startNode.GetPos());
-        UpdateFill(currNode);
-
         //variables used for branching/ postgen
         branchLength = 0;
-        leafList = new List<Node>();
-        nodeList = new List<Node>();
+        leafList = new List<Node>();    // List of leaf nodes (prefer not to branch from here)
+        nodeList = new List<Node>();    // List of internal nodes (prefer to branch from here)
 
-        nodeList.Add(startNode);
+        //create first start room node
+        startNode = new Node(new Vector2(0, 0), null, GenerateRoom(startRoom.gameObject, new Vector2(0, 0)));
+        UpdateFill(startNode);
+        nodeList.Add(startNode); // Add root node as an internal node
 
-
-        //variables used for connecting passageways between two rooms
-        prevRoom = null;
-        currRoom = null;
-
+        /*
+        The basic procedure for generation is like this:
+        1.  Based on the current room we're selecting, try to find any room from the pool of all possible rooms.
+        2.  This is done by first finding all "valid exit doors" from the current room, i.e. rooms that allow at least one of the possible rooms to be placed down without issue.
+            Then, we choose a random door out of the valid ones.
+        3.  Then, we generate a list of possible rooms to be placed down that connects to the door we've selected.
+            (We know that this list is at least size 1, otherwise this door would not have been selected in Step 1.)
+        4.  We place the room down, update fill (which means: mark the squares that it occupies as filled so we don't place down an overlapping room),
+            then set the "current room" to the new room we've placed down.
+        5.  Decide whether we should continue down our current branch or create a new one.
+            The longer a branch is, the more likely we are to quit and start a new branch
+        Additional notes on generation:
+        -   Whenever we make a new node, it's based off of some Room data; we need to copy the door list of the Room.
+        */
+        currNode = startNode;
+        Node nextNode = null;
         while (roomCount < maxRoom)
         {
-            //Debug.Log(currDoor);
-            //Write fail condition for Checkroom (Currently never fails because the 1x1 preset will always fill small spaces)
-            //Debug.Log("cumm");
+            // Add the next room to the graph.
             nextNode = FindNextRoom(currNode);
-            if (nextNode == null)
+            while (nextNode == null)
             {
+                // If we can't find any rooms to put down, keep trying to find a new branch root until there's somewhere we can put a room
                 nodeList.Remove(currNode);
-
-                currNode = nodeList.Count > 0 ? nodeList[Random.Range(0, nodeList.Count)] : leafList[Random.Range(0, leafList.Count)];
-                continue;
+                currNode = NewBranchRoot();
+                nextNode = FindNextRoom(currNode);
             }
-
-            //GenerateRoom(nextNode.GetRoom().gameObject, nextNode.GetPos());
             UpdateFill(nextNode);
             currNode.AddChild(nextNode);
             roomCount++;
             currNode = nextNode;
-
 
             //Branching
             branchLength += 1;
             if (DetermineBranch(branchLength))
             {
                 leafList.Add(currNode);
-                               
-                currNode = nodeList.Count > 0 ? nodeList[Random.Range(0, nodeList.Count)] : leafList[Random.Range(0, leafList.Count)];
+                currNode = NewBranchRoot();
                 branchLength = 0;
             }
             else
@@ -128,12 +124,10 @@ public class RoomGenerator : MonoBehaviour
                 nodeList.Add(currNode);
             }
         }
-        
-        GenerateAllRooms(startNode);
     }
 
     //Determine whether to branch or not given a branch length
-    public bool DetermineBranch(int bl)
+    private bool DetermineBranch(int bl)
     {
         float branchChance = bl * branchIncrement;
         if (branchChance > Random.Range(0f, 1f))
@@ -143,114 +137,85 @@ public class RoomGenerator : MonoBehaviour
         return false;
     }
 
+    private Node NewBranchRoot() { return nodeList.Count > 0 ? nodeList[Random.Range(0, nodeList.Count)] : leafList[Random.Range(0, leafList.Count)]; }
+
+    public class Candidate
+    {
+        public DoorCoord toDoorCoord;
+        public DoorCoord fromDoorCoord;
+        public Room room;
+        public Vector2 anchorPoint;
+        public Candidate(Room room, DoorCoord fromDoorCoord, DoorCoord toDoorCoord, Vector2 anchorPoint)
+        {
+            this.fromDoorCoord = fromDoorCoord;
+            this.toDoorCoord = toDoorCoord;
+            this.room = room;
+            this.anchorPoint = anchorPoint;
+        }
+    }
     public Node FindNextRoom(Node currNode)
     {
-        //Choose a door to create a new room out of
-        DoorCoord currDoor = ChooseDoor(currNode); // Exit door to place new room
-        
-
-        //If no doors are available, branch to a new Node
-        if (currDoor == null)
-        {
-            Debug.Log("TODO: No more open doors in the current room!");
-            return null;
-        }
-        nextDoorSquare = currDoor.NextCoord() + currNode.GetPos();
-        debug.Add(new Vector3(nextDoorSquare.x, nextDoorSquare.y, -5));
-
-
-        Vector2 testPosition;
-        int randRoomInd = (int)Random.Range(0, rooms.Count);
-        //check all rooms starting from a random room
-
-        // For every room, check every door alignment for whether or not we can place it somewhere.
         bool doorValid;
-        bool firstValidDoor;
         Vector2 testAnchor = new Vector2(0, 0);
-        List<Room> validNewRooms = new List<Room>();
-        List<List<Vector2>> validNewRoomCoords = new List<List<Vector2>>();  // list will be parallel to validNewRooms
-        List<Vector2> t = null;
-
-        foreach (Room room in rooms) {
-            firstValidDoor = true;  // used to make sure a list is initialized properly
-            foreach (DoorCoord door in room.GetDoorCoords()) {
-                if (door.GetDir() != -currDoor.GetDir()) continue;  // only look for doors that are aligned with the current one used in generation
-                doorValid = true;  // assume the current door is valid; if we find that placement fails, this will become false
-                testAnchor = nextDoorSquare - door.GetCoord();
-                foreach (Vector2 fillTest in room.GetFill()) {  // test the situation: if we placed a room down using this door for alignment, will it overlap?
-                    if (occupiedCoord.Contains(testAnchor + fillTest)) {
-                        doorValid = false;
-                        break;
+        List<Candidate> candidates = new List<Candidate>();
+        foreach (DoorCoord currDoor in currNode.GetDoorCoords()) {
+            if (currDoor.GetFilled()) continue;     // ignore doors that have already been used (e.g. if curr node is a new branch root, some doors may be used already)
+            foreach (Room candRoom in roomPool) {
+                foreach (DoorCoord candDoor in candRoom.GetDoorCoords()) {
+                    if (candDoor.GetDir() != -currDoor.GetDir()) continue;  // only look for doors that are aligned with the current one used in generation
+                    doorValid = true;  // assume the current door is valid; if we find that placement fails, this will become false
+                    testAnchor = currDoor.NextCoord() + currNode.GetPos() - candDoor.GetCoord();
+                    foreach (Vector2 fillTest in candRoom.GetFill()) {  // test the situation: if we placed a room down using this door for alignment, will it overlap?
+                        if (occupiedCoord.Contains(testAnchor + fillTest)) {
+                            doorValid = false;
+                            break;
+                        }
                     }
-                }
-                if (doorValid) {
-                    if (firstValidDoor) {
-                        validNewRooms.Add(room);  // one valid door validates the room! also, this will only be hit once.
-                        validNewRoomCoords.Add(new List<Vector2>());
-                        firstValidDoor = false;
-                        t = validNewRoomCoords[validNewRoomCoords.Count - 1];
-                    }
-                    t.Add(testAnchor);  // t will be initialized since the if condition is always hit before
+                    if (doorValid)
+                        candidates.Add(new Candidate(candRoom, currDoor, candDoor, new Vector2(testAnchor.x, testAnchor.y)));
                 }
             }
         }
-        if (validNewRooms.Count == 0) {
+        if (candidates.Count == 0) {
             Debug.Log("No valid rooms found!");
             return null;
         }
         else {
-            int chosenRoomIndex = Random.Range(0, validNewRooms.Count);
-            int chosenAnchorIndex = Random.Range(0, validNewRoomCoords[chosenRoomIndex].Count);
-            //Debug.Log(validNewRoomCoords[chosenRoomIndex][chosenAnchorIndex]);
-            return new Node(validNewRoomCoords[chosenRoomIndex][chosenAnchorIndex], currNode, validNewRooms[chosenRoomIndex]);
+            Candidate chosen = candidates[Random.Range(0, candidates.Count)];   // chooses random room *template* from possible choices
+            currNode.GetRoom().UnblockDoor(chosen.fromDoorCoord);    // opens door of current room
+            Room newRepRoom = GenerateRoom(chosen.room.gameObject, chosen.anchorPoint); // instantiates the appropriate prefab from our choice
+            newRepRoom.UnblockDoor(chosen.toDoorCoord);     // opens door of next room
+            newRepRoom.generatePreset();
+            debug.Add(new Vector3(chosen.anchorPoint.x, chosen.anchorPoint.y, -5)); // for gizmos
+            return new Node(chosen.anchorPoint, currNode, newRepRoom);
         }
-    }
-
-    //Chose an open door 
-    public DoorCoord ChooseDoor(Node currNode)
-    {
-        int counter = 0;
-        List<DoorCoord> validDoors = new List<DoorCoord>();
-
-        foreach (DoorCoord door in currNode.GetDoorCoords()) {
-            if (!door.getFilled() && !occupiedCoord.Contains(door.NextCoord() + currNode.GetPos())) {
-                validDoors.Add(door);
-            }
-        }
-
-        if (validDoors.Count == 0) return null;
-        else return validDoors[Random.Range(0, validDoors.Count)];
     }
 
     //Updates room Count and adds the spaces of the newNode to the occupiedCoord list.
     public void UpdateFill(Node newNode)
     {
         //NOTE: USER DEFINED CLASSES ARE PASSED BY VALUE NOT REFERENCE
-        newNode.GetFill().ForEach(fillSquare => occupiedCoord.Add(fillSquare + newNode.GetPos()));
+        newNode.GetRoom().GetFill().ForEach(fillSquare => occupiedCoord.Add(fillSquare + newNode.GetPos()));
     }
-
-    //Convert The Nodes Into Stage GameObjects
-    public void GenerateStage()
+    /// <summary>
+    /// Places the room down in world space, based on our grid coordinates.
+    /// </summary>
+    /// <param name="templateRoom"></param>
+    /// <param name="coords"></param>
+    /// <returns> Returns the instance of Room attached to the generated prefab. </returns>
+    public Room GenerateRoom(GameObject templateRoom, Vector2 coords)
     {
-
+        GameObject spawnedRoom = Instantiate(templateRoom, coords * roomSize, templateRoom.transform.rotation);
+        return spawnedRoom.GetComponent<Room>();
     }
-
-
-    public void GenerateRoom(GameObject room, Vector2 coords)
+    public void DrawAllGizmos(Node startR)
     {
-        Instantiate(room, coords * roomSize, room.transform.rotation);
-    }
-
-    public void GenerateAllRooms(Node startR)
-    {
-        Instantiate(startR.GetRoom(), startR.GetPos() * roomSize, startR.GetRoom().transform.rotation);
-        if (startR.GetChildren().Count == 0)
-        {
+        if (startR.GetChildren().Count == 0) {
             return;
         }
-        foreach (Node childNode in startR.GetChildren())
-        {
-            GenerateAllRooms(childNode);
+        foreach (Node childNode in startR.GetChildren()) {
+            Gizmos.DrawLine(startR.GetPos() * roomSize, childNode.GetPos() * roomSize);
+            DrawAllGizmos(childNode);
         }
 
     }
@@ -258,7 +223,6 @@ public class RoomGenerator : MonoBehaviour
     public void OnDrawGizmos()
     {
         if (!Application.isPlaying) return;
-        for (int i = 0; i < debug.Count - 1; i++)
-            Gizmos.DrawLine(debug[i] * roomSize, debug[i+1] * roomSize);
+        if (startNode != null) DrawAllGizmos(startNode);
     }
 }

@@ -7,19 +7,7 @@ public class Room : MonoBehaviour
     [SerializeField] private List<Vector2> fill;
     [SerializeField] private List<DoorCoord> doorCoord;
 
-    [SerializeField] private List<GameObject> fillerWalls;
-
-    public void Start()
-    {
-    }
-
-    public Room(Room copy)
-    {
-        this.fill = new List<Vector2>(copy.GetFill());
-        this.doorCoord = new List<DoorCoord>(copy.GetDoorCoords());
-    }
-
-    //public GameObject GetGameObject() { return this.gameObject; }
+    [SerializeField] private List<GameObject> presetLayouts;
 
     public List<Vector2> GetFill()
     {
@@ -32,17 +20,33 @@ public class Room : MonoBehaviour
         return newList;
     }
 
-    /*public List<Vector2> GetOffsetCoord(Vector2 offset)
+    /// <summary>
+    /// Configures a room to enable a door specfied by an index of the doorCoord List. 
+    /// </summary>
+    /// <param name="doorIndex"></param>
+    public void UnblockDoor(int doorIndex) { doorCoord[doorIndex].UnblockDoor(); }
+
+    
+    /// <summary>
+    /// Enables a door when we don't know its index by matching requested coord & dir with that of stored DoorCoords; 
+    /// this method assumes that door coord and direction is "unique" 
+    /// (there are no two doors with the exact same coord & dir, which is a reasonable assumption).
+    /// </summary>
+    /// <param name="doorCoord"></param>
+    public void UnblockDoor(DoorCoord doorCoord) 
     {
-        List<Vector2> newList = new List<Vector2>(coord);
-        newList.ForEach(c => c = c + offset);
-        return newList;
+        foreach(DoorCoord testDoorCoord in this.doorCoord) {
+             if (testDoorCoord.GetCoord().Equals(doorCoord.GetCoord()) && testDoorCoord.GetDir().Equals(doorCoord.GetDir())) {
+                testDoorCoord.UnblockDoor();
+                break;
+            }
+        }
     }
 
-    public List<DoorCoord> GetOffsetDoorCoord(Vector2 offset)
+    public void generatePreset()
     {
-        List<DoorCoord> newList = new List<DoorCoord>(doorCoord);
-        newList.ForEach(c => c.setCoord(c.GetCoord() + offset));
-        return newList;
-    }*/
+        if (presetLayouts.Count == 0) return;
+        Instantiate(presetLayouts[Random.Range(0, presetLayouts.Count)], this.transform);
+    }
+
 }

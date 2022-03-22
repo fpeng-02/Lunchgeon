@@ -334,7 +334,7 @@ GameObject:
   - component: {fileID: 743454006}
   - component: {fileID: 743454005}
   m_Layer: 0
-  m_Name: CBGenerator
+  m_Name: DungeonGenerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -353,12 +353,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomSize: 10
-  rooms:
-  - {fileID: 2946385717938251136, guid: 8ed6ee205a2a7cf4c912d7fbc4e6fb23, type: 3}
+  roomPool:
   - {fileID: 6334797405978415343, guid: a921368dace795b4bb415c974577963e, type: 3}
-  startRoom: {fileID: 3591885598201884583, guid: 7c9ea19247dd8c547b7cbf955406513d, type: 3}
-  maxRoom: 100
-  branchIncrement: 0.04
+  - {fileID: 2946385717938251136, guid: 8ed6ee205a2a7cf4c912d7fbc4e6fb23, type: 3}
+  startRoom: {fileID: 3571885131343063906, guid: 08908f66dcfb48f4dbe855563aeb422a, type: 3}
+  maxRoom: 15
+  branchIncrement: 0.1
 --- !u!4 &743454006
 Transform:
   m_ObjectHideFlags: 0
