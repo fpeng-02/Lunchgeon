@@ -48,7 +48,7 @@ MonoBehaviour:
   - enemyPos: {x: 5, y: 5}
     enemyGO: {fileID: 4699173731569514665, guid: c57796e2f3bab0c40a23e732fccc23ed, type: 3}
   - enemyPos: {x: 0, y: 5}
-    enemyGO: {fileID: 4699173731569514665, guid: c57796e2f3bab0c40a23e732fccc23ed, type: 3}
+    enemyGO: {fileID: 1217239691830801237, guid: 4fbd135510a99ce4dabd036c115ca54b, type: 3}
   - enemyPos: {x: 10, y: 5}
     enemyGO: {fileID: 4699173731569514665, guid: c57796e2f3bab0c40a23e732fccc23ed, type: 3}
 --- !u!1 &7957111582097754685
