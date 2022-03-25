@@ -17,11 +17,10 @@ public abstract class Entity : MonoBehaviour
 
     public virtual void ApplyHit(float damage, Vector3 vector)
     {
-        //Debug.Log("Hit Recieved!");
         health -= damage;
         gameObject.GetComponent<Rigidbody2D>().AddForce(vector, ForceMode2D.Impulse);
 
-        Debug.Log(health);
+        //Debug.Log(health);
     }
 
     public virtual void Update()
