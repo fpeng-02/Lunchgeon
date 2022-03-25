@@ -46,21 +46,19 @@ public class RoomGenerator : MonoBehaviour
     [SerializeField] private int maxRoom;
     [SerializeField] private float branchIncrement;
 
-
     private List<Vector3> debug; // stores anchor of each generated room, connecting them will give a sort of "path" that gen followed
 
+    protected List<Vector2> occupiedCoord = new List<Vector2>();
 
-    private List<Vector2> occupiedCoord = new List<Vector2>();
+    protected Node startNode;     //start node/root node
+    protected Node currNode;      //current/working node
+    protected int roomCount;      //overall room count
 
-    private Node startNode;     //start node/root node
-    private Node currNode;      //current/working node
-    private int roomCount;      //overall room count
+    protected Vector2 nextDoorSquare = new Vector2(0, 0); //offset from origin
 
-    private Vector2 nextDoorSquare = new Vector2(0, 0); //offset from origin
-
-    private int branchLength;
-    private List<Node> leafList;
-    private List<Node> nodeList;
+    protected int branchLength;
+    protected List<Node> leafList;
+    protected List<Node> nodeList;
     void Start()
     {
         debug = new List<Vector3>();
@@ -98,13 +96,13 @@ public class RoomGenerator : MonoBehaviour
         while (roomCount < maxRoom)
         {
             // Add the next room to the graph.
-            nextNode = FindNextRoom(currNode);
+            nextNode = FindNextRoom(currNode, roomPool);
             while (nextNode == null)
             {
                 // If we can't find any rooms to put down, keep trying to find a new branch root until there's somewhere we can put a room
                 nodeList.Remove(currNode);
                 currNode = NewBranchRoot();
-                nextNode = FindNextRoom(currNode);
+                nextNode = FindNextRoom(currNode, roomPool);
             }
             UpdateFill(nextNode);
             currNode.AddChild(nextNode);
@@ -124,6 +122,33 @@ public class RoomGenerator : MonoBehaviour
                 nodeList.Add(currNode);
             }
         }
+
+        PostGeneration();
+    }
+
+
+    public virtual void PostGeneration() { } //To be overrided in children class
+
+    public bool GenerateRoomOnLeaf(Room roomToGenerate)
+    {
+        Node resultNode;
+        List<Room> newRoomList = new List<Room>();
+        newRoomList.Add(roomToGenerate);
+        bool placedRoom = false;
+
+        foreach (Node leafNode in leafList)
+        {
+            resultNode = FindNextRoom(leafNode, newRoomList);
+            if (resultNode != null)
+            {
+                leafList.Remove(leafNode);
+                //adds the created node to leafList, if commented out, this node effectively becomes a dead end (?)
+                //leafList.Add(resultNode); 
+                placedRoom = true;
+                break;
+            }
+        }
+        return placedRoom;
     }
 
     //Determine whether to branch or not given a branch length
@@ -153,14 +178,14 @@ public class RoomGenerator : MonoBehaviour
             this.anchorPoint = anchorPoint;
         }
     }
-    public Node FindNextRoom(Node currNode)
+    public Node FindNextRoom(Node currNode, List<Room> generatePool)
     {
         bool doorValid;
         Vector2 testAnchor = new Vector2(0, 0);
         List<Candidate> candidates = new List<Candidate>();
         foreach (DoorCoord currDoor in currNode.GetDoorCoords()) {
             if (currDoor.GetFilled()) continue;     // ignore doors that have already been used (e.g. if curr node is a new branch root, some doors may be used already)
-            foreach (Room candRoom in roomPool) {
+            foreach (Room candRoom in generatePool) {
                 foreach (DoorCoord candDoor in candRoom.GetDoorCoords()) {
                     if (candDoor.GetDir() != -currDoor.GetDir()) continue;  // only look for doors that are aligned with the current one used in generation
                     doorValid = true;  // assume the current door is valid; if we find that placement fails, this will become false
