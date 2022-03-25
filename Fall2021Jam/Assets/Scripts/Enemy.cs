@@ -28,8 +28,10 @@ public abstract class Enemy : Entity
     /// </summary>
     private void DoLootDrops()
     {
-        if (lootTable == null) return;  // null loot table = no drops, ever (!)
+        Debug.Log("hello");
+        if (lootTable == null) {Debug.Log("null"); return; }  // null loot table = no drops, ever (!)
         List<ItemInstance> toDrop = lootTable.GiveItems();
+        Debug.Log(toDrop.Count);
         foreach (ItemInstance drop in toDrop) {
             GameObject go = Instantiate(itemDropGo, this.transform.position, Quaternion.identity);
             ItemDrop itemDrop = go.GetComponent<ItemDrop>();
