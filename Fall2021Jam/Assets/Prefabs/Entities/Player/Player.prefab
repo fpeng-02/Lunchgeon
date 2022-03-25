@@ -48,8 +48,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+  maxHealth: 100
   baseMoveSpeed: 10
   atk1: {fileID: 4413491533130074750}
+  inventorySO: {fileID: 11400000, guid: a45a4b0abc4d7154090629541ff2f0a1, type: 2}
+  reach: 0
+  <InventoryUI>k__BackingField: {fileID: 0}
 --- !u!50 &8638678760428065037
 Rigidbody2D:
   serializedVersion: 4
