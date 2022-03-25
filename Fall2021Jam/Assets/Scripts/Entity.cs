@@ -22,8 +22,6 @@ public abstract class Entity : MonoBehaviour
         //Debug.Log("Hit Recieved!");
         health -= damage;
         gameObject.GetComponent<Rigidbody2D>().AddForce(vector, ForceMode2D.Impulse);
-
-        Debug.Log(health);
     }
 
     public virtual void Update()
