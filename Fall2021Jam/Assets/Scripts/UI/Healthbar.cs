@@ -5,18 +5,18 @@ using UnityEngine.UI;
 
 public class Healthbar : MonoBehaviour
 {
-    private Image healthbarFill;
-    private Player player;
+    protected Image healthbarFill;
+    public Entity entity;
 
-    void Start()
+    protected virtual void Start()
     {
         healthbarFill = GetComponent<Image>();
-        player = GameObject.Find("Player").GetComponent<Player>();
+        entity = GetComponentInParent<Entity>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        healthbarFill.fillAmount = player.GetHealth() / player.GetMaxHealth();
+        healthbarFill.fillAmount = entity.GetHealth() / entity.GetMaxHealth();
     }
 }
