@@ -18,7 +18,7 @@ public class RoomEvent : MonoBehaviour
         foreach (GameObject door in doors) {
             door.SetActive(false);
         }
-        enemyList = new List<EnemyData>();
+        if (enemyList == null) enemyList = new List<EnemyData>();
     }
 
     
@@ -52,6 +52,7 @@ public class RoomEvent : MonoBehaviour
 
     public void addEnemy(EnemyData newEnemyData)
     {
+        if (enemyList == null) enemyList = new List<EnemyData>();
         enemyList.Add(newEnemyData);
     }
 
