@@ -29,7 +29,6 @@ public class DummyEnemyAttack1 : Attack
             float attackRotation = Mathf.Atan2(shootDirection.y, shootDirection.x);
             attackRotation = Mathf.Rad2Deg * attackRotation;
             //initialize new gameobject
-            Debug.Log("Instantiate 4Head");
             GameObject newAttack = Instantiate(attackObject, transform.position + shootDirection * offsetDistance, Quaternion.Euler(0, 0, attackRotation - 90), this.transform);
 
             //put the attack on cooldown

@@ -5,10 +5,12 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour
 {
     [SerializeField] private float health;
+    [SerializeField] private float maxHealth;
     private bool isAlive = true;
     private State currState;
 
     //knockback multiplier
+    public float GetMaxHealth() { return maxHealth; }
 
     public void SetHealth(float health) {this.health = health;}
     public float GetHealth() {return health;}
@@ -19,8 +21,6 @@ public abstract class Entity : MonoBehaviour
     {
         health -= damage;
         gameObject.GetComponent<Rigidbody2D>().AddForce(vector, ForceMode2D.Impulse);
-
-        //Debug.Log(health);
     }
 
     public virtual void Update()

@@ -25,7 +25,6 @@ public class RoomEvent : MonoBehaviour
 
     public void StartRoom()
     {
-        Debug.Log("room start");
         roomProgress = 0;
         
         // Basic implementation of spawning enemies based on preset
