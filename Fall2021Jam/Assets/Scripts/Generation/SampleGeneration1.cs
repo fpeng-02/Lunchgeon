@@ -6,7 +6,7 @@ public class SampleGeneration1 : RoomGenerator
 {
     [SerializeField] Room bossRoom;
     [SerializeField] Room berryRoom;
-    public override void PostGeneration()
+     public override void PostGeneration()
     {
         GenerateBossRoom();
         GenerateBerryRoom();
