@@ -45,7 +45,7 @@ public class Player : Entity
 
         if (Input.GetButtonDown("UseActiveItem"))
         {
-            (inventorySO.ActiveItem.BaseItem as IUsableItem)?.ItemAction();
+            (inventorySO.ActiveItem.BaseItem as IUsableItem)?.ItemAction(this);
         }
 
         if (Input.GetButtonDown("OpenInventory"))
@@ -71,7 +71,6 @@ public class Player : Entity
                 break;
         }
     }
-
     public override void ApplyHit(float damage, Vector3 vector)
     {
         base.ApplyHit(damage, vector);
