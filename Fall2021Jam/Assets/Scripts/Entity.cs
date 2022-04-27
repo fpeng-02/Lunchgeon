@@ -17,6 +17,10 @@ public abstract class Entity : MonoBehaviour
     public void SetState(State currState) { this.currState = currState; }
     public State GetState() { return currState; }
 
+    public virtual void ApplyHeal(float healAmount) {
+        health = Mathf.Min(maxHealth, health + healAmount);
+    }
+
     public virtual void ApplyHit(float damage, Vector3 vector)
     {
         health -= damage;
