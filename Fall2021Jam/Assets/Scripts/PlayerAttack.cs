@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Attack : MonoBehaviour
+
+//refactor this later as needed XD
+public class PlayerAttack : MonoBehaviour
 {
     public virtual void attack() { }
 }

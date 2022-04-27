@@ -10,10 +10,10 @@ public class DummyEnemy : Enemy
     private Vector3 dirVect;
     private Rigidbody2D rb;
     private Transform playerTransform;
-    [SerializeField] private Attack atk1;
+    [SerializeField] private EnemyAttack atk1;
 
 
-
+    [SerializeField] private float attackDistance = 2.0f;
     [SerializeField] private float attackPause = 1f;
     private float attackTimer;
 
@@ -40,7 +40,7 @@ public class DummyEnemy : Enemy
         */
         dirVect = playerTransform.position - this.transform.position;
         dirVect.z = 0;
-        if (dirVect.magnitude < 2.0)
+        if (dirVect.magnitude < attackDistance)
         {
             SetState(State.Attacking);
         }
@@ -59,7 +59,7 @@ public class DummyEnemy : Enemy
             case State.Attacking:
                 if (attackTimer < 0.5)
                 {
-                    atk1.attack();
+                    atk1.Attack();
                 }
                 if (attackTimer <= 0)
                 {

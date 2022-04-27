@@ -25,6 +25,9 @@ public class RoomEvent : MonoBehaviour
 
     public void StartRoom()
     {
+        transform.parent.GetComponent<Room>().setSprites(true);
+
+
         roomProgress = 0;
         
         // Basic implementation of spawning enemies based on preset

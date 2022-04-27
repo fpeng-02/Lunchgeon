@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyList:
   - enemyPos: {x: 2.5, y: 5}
-    enemyGO: {fileID: 4699173731569514665, guid: c57796e2f3bab0c40a23e732fccc23ed, type: 3}
+    enemyGO: {fileID: 5348289234340238627, guid: faa712bb289a09b46ac76b38001cb740, type: 3}
   - enemyPos: {x: 7.5, y: 5}
     enemyGO: {fileID: 4699173731569514665, guid: c57796e2f3bab0c40a23e732fccc23ed, type: 3}
 --- !u!1 &7808463368718197478

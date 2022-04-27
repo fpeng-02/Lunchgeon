@@ -6,8 +6,25 @@ public class Room : MonoBehaviour
 {
     [SerializeField] private List<Vector2> fill;
     [SerializeField] private List<DoorCoord> doorCoord;
-
     [SerializeField] private List<GameObject> presetLayouts;
+    [SerializeField] private bool showRoom = false;
+    private void Start()
+    {
+        if (!showRoom)
+        {
+            setSprites(false);
+        }
+    }
+
+    public void setSprites(bool tf)
+    {
+        Component[] spriteRenderers;
+        spriteRenderers = GetComponentsInChildren<SpriteRenderer>(true);
+        foreach (SpriteRenderer sr in spriteRenderers)
+        {
+            sr.enabled = tf;
+        }
+    }
 
     public List<Vector2> GetFill()
     {
