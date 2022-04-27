@@ -43,6 +43,11 @@ public class Player : Entity
             hit.collider?.gameObject.GetComponent<IInteractable>().OnInteract();
         }
 
+        if (Input.GetButtonDown("UseActiveItem"))
+        {
+            (inventorySO.ActiveItem.BaseItem as IUsableItem)?.ItemAction();
+        }
+
         if (Input.GetButtonDown("OpenInventory"))
         {
             InventoryUI.ToggleBackpackEnable();
