@@ -9,7 +9,7 @@ public class Player : Entity
     private float v;
     private Vector3 dirVect;
     private Rigidbody2D rb;
-    [SerializeField] private Attack atk1;
+    [SerializeField] private PlayerAttack atk1;
     [SerializeField] private PlayerInventory inventorySO;
     [SerializeField] private float reach;
     public ItemContainer Inventory {get; private set;}

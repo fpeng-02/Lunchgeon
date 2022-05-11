@@ -106,6 +106,7 @@ MonoBehaviour:
   cycleLength: 1
   baseMoveSpeed: 3
   atk1: {fileID: 1060551686733053158}
+  attackDistance: 2
   attackPause: 1
 --- !u!50 &5854570863233815342
 Rigidbody2D:
@@ -169,6 +170,7 @@ MonoBehaviour:
   cooldown: 1
   attackObject: {fileID: 3637719133676768640, guid: 6135fe1403fdea74a99876f1b3ae1804, type: 3}
   offsetDistance: 2
+  velocity: 0.5
 --- !u!1001 &4268993081297419944
 PrefabInstance:
   m_ObjectHideFlags: 0

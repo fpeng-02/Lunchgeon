@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1780324099818183168}
   - component: {fileID: 1249606120691122684}
   m_Layer: 0
-  m_Name: 2x2Walled-Hollow
+  m_Name: 2x2Square-Hollow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyList:
   - enemyPos: {x: 2.5, y: 5}
-    enemyGO: {fileID: 4699173731569514665, guid: c57796e2f3bab0c40a23e732fccc23ed, type: 3}
+    enemyGO: {fileID: 5348289234340238627, guid: faa712bb289a09b46ac76b38001cb740, type: 3}
   - enemyPos: {x: 7.5, y: 5}
     enemyGO: {fileID: 4699173731569514665, guid: c57796e2f3bab0c40a23e732fccc23ed, type: 3}
 --- !u!1 &7808463368718197478

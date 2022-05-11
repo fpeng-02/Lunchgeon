@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 7617901651334159799}
   - component: {fileID: 6334797405978415343}
   m_Layer: 0
-  m_Name: 2x2WalledRoom
+  m_Name: 2x2SquareRoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

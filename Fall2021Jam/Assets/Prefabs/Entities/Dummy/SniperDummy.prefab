@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1828543903561951111}
   - component: {fileID: 6499182488803229348}
   - component: {fileID: 4992350437092014760}
-  - component: {fileID: 412632453157704044}
+  - component: {fileID: 7883092591966453771}
   m_Layer: 0
   m_Name: SniperDummy
   m_TagString: Enemy
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 7b7510601c099cd4e94ea4128b658a63, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.77577513, g: 0.8584906, b: 0.26321647, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -99,9 +99,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 20
+  maxHealth: 20
+  lootTable: {fileID: 11400000, guid: 1abf66a2d6454a34382ee7ee266287a9, type: 2}
+  itemDropGo: {fileID: 8846358157116065549, guid: 5e406a5428411c64a961818e6bf52b1d, type: 3}
   cycleLength: 1
   baseMoveSpeed: 3
-  atk1: {fileID: 412632453157704044}
+  atk1: {fileID: 7883092591966453771}
+  attackDistance: 5
   attackPause: 1
 --- !u!50 &6499182488803229348
 Rigidbody2D:
@@ -150,7 +154,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &412632453157704044
+--- !u!114 &7883092591966453771
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -159,9 +163,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5348289234340238627}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94e3fdc2ee355224e8c5199497172648, type: 3}
+  m_Script: {fileID: 11500000, guid: 891ce7b3f783b104bb0198b8628fc03e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
-  attackObject: {fileID: 3637719133676768640, guid: 6135fe1403fdea74a99876f1b3ae1804, type: 3}
+  attackObject: {fileID: 6734708897850256692, guid: dcf910c217912694eb007fdcae673283, type: 3}
   offsetDistance: 2
+  velocity: 10
