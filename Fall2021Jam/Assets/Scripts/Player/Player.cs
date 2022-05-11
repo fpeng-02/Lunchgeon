@@ -43,6 +43,11 @@ public class Player : Entity
             hit.collider?.gameObject.GetComponent<IInteractable>().OnInteract();
         }
 
+        if (Input.GetButtonDown("UseActiveItem"))
+        {
+            (inventorySO.ActiveItem.BaseItem as IUsableItem)?.ItemAction(this);
+        }
+
         if (Input.GetButtonDown("OpenInventory"))
         {
             InventoryUI.ToggleBackpackEnable();
@@ -66,7 +71,6 @@ public class Player : Entity
                 break;
         }
     }
-
     public override void ApplyHit(float damage, Vector3 vector)
     {
         base.ApplyHit(damage, vector);

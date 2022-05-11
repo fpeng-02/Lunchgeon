@@ -11,5 +11,7 @@ using UnityEngine;
 /// </summary>
 public interface IUsableItem
 {
-    public void ItemAction();
+    // Only the player uses items anyway..?
+    // The idea is that a lot of items probably depend on the player, so it's faster to just pass than to find gameobject every time
+    public void ItemAction(Player player);
 }
