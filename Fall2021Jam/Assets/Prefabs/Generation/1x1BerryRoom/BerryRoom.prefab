@@ -138,6 +138,7 @@ MonoBehaviour:
     physicalFiller: {fileID: 1781497138864591925}
   presetLayouts:
   - {fileID: 528241189718457918, guid: 8aaf522a4cb8f9d458db36ca04d800ea, type: 3}
+  showRoom: 0
 --- !u!1001 &1368466441552541711
 PrefabInstance:
   m_ObjectHideFlags: 0

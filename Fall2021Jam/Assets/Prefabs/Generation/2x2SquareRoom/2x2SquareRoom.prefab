@@ -189,6 +189,7 @@ MonoBehaviour:
   - {fileID: 4006180799801744194, guid: 4ff185c8e16ea9849b82f42ef2252648, type: 3}
   - {fileID: 7135742217563731245, guid: 3970634248966d74fa7a4eb4050ae1b0, type: 3}
   - {fileID: 37710070881933088, guid: e0c64080600b25448b4b3ed2a935c95f, type: 3}
+  showRoom: 0
 --- !u!1 &7010685589953214175
 GameObject:
   m_ObjectHideFlags: 0

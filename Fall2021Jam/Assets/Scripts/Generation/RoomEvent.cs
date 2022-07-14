@@ -46,10 +46,13 @@ public class RoomEvent : MonoBehaviour
             door.SetActive(true);
         }
 
-        // Disable room triggers (don't want to start the room twice
+        // Disable room triggers (don't want to start the room twice)
         foreach (GameObject roomTrigger in roomTriggers) {
             roomTrigger.SetActive(false);
         }
+
+        //If the room did not spawn any enemies, it auto clears
+        CheckRoomClear();
     }
 
     public void addEnemy(EnemyData newEnemyData)
@@ -61,6 +64,12 @@ public class RoomEvent : MonoBehaviour
     public void ProgressRoom()
     {
         roomProgress -= 1;
+        CheckRoomClear();
+        
+    }
+
+    public void CheckRoomClear()
+    {
         if (roomProgress <= 0) EndRoom();
     }
 

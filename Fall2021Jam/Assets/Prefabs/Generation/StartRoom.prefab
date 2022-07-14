@@ -52,6 +52,14 @@ MonoBehaviour:
     doorDir: {x: 0, y: 1}
     physicalDoor: {fileID: 0}
     physicalFiller: {fileID: 4538115950442674665}
+  - doorCoord: {x: -1, y: 0}
+    doorDir: {x: 0, y: 0}
+    physicalDoor: {fileID: 0}
+    physicalFiller: {fileID: 4538115950442674665}
+  - doorCoord: {x: 1, y: 0}
+    doorDir: {x: 0, y: 0}
+    physicalDoor: {fileID: 0}
+    physicalFiller: {fileID: 4538115950442674665}
   presetLayouts: []
   showRoom: 1
 --- !u!212 &8241011693932492058

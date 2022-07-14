@@ -168,8 +168,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomSize: 10
   roomPool:
-  - {fileID: 6334797405978415343, guid: a921368dace795b4bb415c974577963e, type: 3}
   - {fileID: 2946385717938251136, guid: 8ed6ee205a2a7cf4c912d7fbc4e6fb23, type: 3}
+  - {fileID: 6334797405978415343, guid: a921368dace795b4bb415c974577963e, type: 3}
   startRoom: {fileID: 3571885131343063906, guid: 08908f66dcfb48f4dbe855563aeb422a, type: 3}
   maxRoom: 15
   branchIncrement: 0.1
@@ -752,7 +752,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 50
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
