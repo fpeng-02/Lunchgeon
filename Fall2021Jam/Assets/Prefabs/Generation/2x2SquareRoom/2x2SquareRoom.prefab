@@ -186,9 +186,9 @@ MonoBehaviour:
     physicalDoor: {fileID: 4675072380347285972}
     physicalFiller: {fileID: 7791213070014271232}
   presetLayouts:
-  - {fileID: 4006180799801744194, guid: 4ff185c8e16ea9849b82f42ef2252648, type: 3}
-  - {fileID: 7135742217563731245, guid: 3970634248966d74fa7a4eb4050ae1b0, type: 3}
-  - {fileID: 37710070881933088, guid: e0c64080600b25448b4b3ed2a935c95f, type: 3}
+  - {fileID: 7460240983082103773, guid: 925fbb1863075094eaf6416619af37b8, type: 3}
+  - {fileID: 7460240983082103773, guid: 925fbb1863075094eaf6416619af37b8, type: 3}
+  - {fileID: 7460240983082103773, guid: 925fbb1863075094eaf6416619af37b8, type: 3}
   showRoom: 0
 --- !u!1 &7010685589953214175
 GameObject:

@@ -65,7 +65,6 @@ public class RoomEvent : MonoBehaviour
     {
         roomProgress -= 1;
         CheckRoomClear();
-        
     }
 
     public void CheckRoomClear()
