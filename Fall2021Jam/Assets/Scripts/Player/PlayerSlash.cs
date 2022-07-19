@@ -7,8 +7,7 @@ public class PlayerSlash : Hitbox
     // Start is called before the first frame update
     void Start()
     {
-        //Debug.Log("Hit Created!");
-        //Get all the colliders overlapping with the overlapbox
+        /*Get all the colliders overlapping with the overlapbox
         Collider2D[] hitColliders = Physics2D.OverlapBoxAll(gameObject.transform.position, transform.localScale, transform.eulerAngles.z);
         int i = 0;
         //iterate through hit colliders and apply the hit to enemies
@@ -22,6 +21,25 @@ public class PlayerSlash : Hitbox
             }
             i++;
         }
+        */
+    }
+
+    private void ProcessHit(GameObject target)
+    {
+        Vector3 knock = getKnock() * Vector3.Normalize(target.transform.position - transform.parent.transform.position);
+        target.GetComponent<Entity>().ApplyHit(getDamage(), knock);
+    }
+
+
+    //we need a more generic version of this?
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("trigenter");
+        if (collision.gameObject.tag == "Enemy")
+        {
+            ProcessHit(collision.gameObject);
+        }
+        
     }
 
     // Update is called once per frame

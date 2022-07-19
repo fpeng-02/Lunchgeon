@@ -38,6 +38,8 @@ public class DummyEnemy : Enemy
             dirVect = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), 0).normalized;
         }
         */
+
+        /* Move towards
         dirVect = playerTransform.position - this.transform.position;
         dirVect.z = 0;
         if (dirVect.magnitude < attackDistance)
@@ -45,11 +47,18 @@ public class DummyEnemy : Enemy
             SetState(State.Attacking);
         }
         dirVect = Vector3.Normalize(dirVect);
+        */
         
 
     }
     public void FixedUpdate()
     {
+
+        if (rb.IsSleeping())
+        {
+            rb.WakeUp();
+        }
+
         switch (GetState()){
             case State.Stunned:
                 break;
@@ -57,6 +66,9 @@ public class DummyEnemy : Enemy
                 if (rb.velocity.magnitude < 1.0f) SetState(State.Regular);
                 break;
             case State.Attacking:
+
+                //Code for attacking
+                /*
                 if (attackTimer < 0.5)
                 {
                     atk1.Attack();
@@ -70,9 +82,11 @@ public class DummyEnemy : Enemy
                 {
                     attackTimer = attackTimer - Time.deltaTime;
                 }
+                */
+                
                 break; 
             default:
-                rb.MovePosition(rb.transform.position + dirVect * baseMoveSpeed * Time.deltaTime);
+                //rb.MovePosition(rb.transform.position + dirVect * baseMoveSpeed * Time.deltaTime);
                 break;
         }
     }

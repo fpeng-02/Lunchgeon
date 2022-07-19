@@ -605,8 +605,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 0.3
-  attackObject: {fileID: 4941029437539131883, guid: b0a520af07436cd4fad28378bdf06921, type: 3}
-  offsetDistance: 2
+  attackObject: {fileID: 2003292872299135053, guid: 2f9fb53cef395cb4bb6ac457c50747e0, type: 3}
+  offsetDistance: 1.5
 --- !u!61 &6878879368369750753
 BoxCollider2D:
   m_ObjectHideFlags: 0
