@@ -17,6 +17,13 @@ public abstract class Entity : MonoBehaviour
     public void SetState(State currState) { this.currState = currState; }
     public State GetState() { return currState; }
 
+    protected Rigidbody2D rb;
+
+    protected virtual void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
     public virtual void ApplyHeal(float healAmount) {
         health = Mathf.Min(maxHealth, health + healAmount);
     }
@@ -29,6 +36,11 @@ public abstract class Entity : MonoBehaviour
 
     public virtual void Update()
     {
+        if (rb.IsSleeping())
+        {
+            rb.WakeUp();
+        }
+
         if (health <= 0) Die();
     }
 

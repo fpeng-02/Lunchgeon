@@ -92,9 +92,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4994980250383747517}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4ab50a81aac1e248924d42bba0f803c, type: 3}
+  m_Script: {fileID: 11500000, guid: 5cb3149af365b6641a3df10032cd41d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 0.2
-  damage: 20
-  knock: 40
+  duration: 0
+  damage: 0
+  knock: 0
+  targetTag: 

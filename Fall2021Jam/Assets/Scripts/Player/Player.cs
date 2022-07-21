@@ -8,7 +8,6 @@ public class Player : Entity
     private float h;
     private float v;
     private Vector3 dirVect;
-    private Rigidbody2D rb;
     [SerializeField] private PlayerAttack atk1;
     [SerializeField] private PlayerInventory inventorySO;
     [SerializeField] private float reach;

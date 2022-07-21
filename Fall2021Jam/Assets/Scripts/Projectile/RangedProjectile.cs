@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DummySniperShot: Hitbox
+public class RangedProjectile: Hitbox
 {
+    public Vector3 initialPos { get; set; }
+
     // Start is called before the first frame update
     void Start() {}
 
@@ -17,10 +19,9 @@ public class DummySniperShot: Hitbox
             Destroy(this.gameObject);
         }
 
-
-        //Debug.Log("Hit Created!");
+        /*
         //Get all the colliders overlapping with the overlapbox
-        Collider2D[] hitColliders = Physics2D.OverlapBoxAll(gameObject.transform.position, transform.localScale, transform.eulerAngles.z);
+        Collider2D[] hitColliders = Physics2D.OverlapBoxAll(gameObjeczt.transform.position, transform.localScale, transform.eulerAngles.z);
         int i = 0;
         //iterate through hit colliders and apply the hit to enemies
         while (i < hitColliders.Length)
@@ -37,6 +38,24 @@ public class DummySniperShot: Hitbox
             }
             i++;
         }
+        */
+    }
+
+    private void ProcessHit(GameObject target)
+    {
+        Vector3 knock = getKnock() * Vector3.Normalize(target.transform.position - initialPos);
+        target.GetComponent<Entity>().ApplyHit(getDamage(), knock);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("trigenter");
+        if (collision.gameObject.tag == getTargetTag())
+        {
+            Debug.Log("Player hit");
+            ProcessHit(collision.gameObject);
+        }
+
     }
 
 }

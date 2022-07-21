@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSlash : Hitbox
+public class MeleeProjectile : Hitbox
 {
     // Start is called before the first frame update
     void Start()
@@ -35,7 +35,7 @@ public class PlayerSlash : Hitbox
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("trigenter");
-        if (collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.tag == getTargetTag())
         {
             ProcessHit(collision.gameObject);
         }

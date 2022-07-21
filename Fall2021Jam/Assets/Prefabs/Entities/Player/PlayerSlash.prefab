@@ -134,3 +134,4 @@ MonoBehaviour:
   duration: 0.2
   damage: 10
   knock: 3
+  targetTag: Enemy

@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5348289234340238626}
   - component: {fileID: 5529142517774165443}
-  - component: {fileID: 1828543903561951111}
   - component: {fileID: 6499182488803229348}
   - component: {fileID: 4992350437092014760}
   - component: {fileID: 7883092591966453771}
+  - component: {fileID: 5440535142479486482}
   m_Layer: 0
   m_Name: SniperDummy
   m_TagString: Enemy
@@ -86,27 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1828543903561951111
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5348289234340238627}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7915d39e48253154a91e6e0504619430, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 20
-  maxHealth: 20
-  lootTable: {fileID: 11400000, guid: 1abf66a2d6454a34382ee7ee266287a9, type: 2}
-  itemDropGo: {fileID: 8846358157116065549, guid: 5e406a5428411c64a961818e6bf52b1d, type: 3}
-  cycleLength: 1
-  baseMoveSpeed: 3
-  atk1: {fileID: 7883092591966453771}
-  attackDistance: 5
-  attackPause: 1
 --- !u!50 &6499182488803229348
 Rigidbody2D:
   serializedVersion: 4
@@ -170,3 +149,24 @@ MonoBehaviour:
   attackObject: {fileID: 6734708897850256692, guid: dcf910c217912694eb007fdcae673283, type: 3}
   offsetDistance: 2
   velocity: 10
+--- !u!114 &5440535142479486482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5348289234340238627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a39119fb504a92946aabd189d9a94951, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 20
+  maxHealth: 20
+  lootTable: {fileID: 0}
+  itemDropGo: {fileID: 0}
+  cycleLength: 1
+  baseMoveSpeed: 0.5
+  atk1: {fileID: 7883092591966453771}
+  attackDistance: 5
+  attackPause: 1

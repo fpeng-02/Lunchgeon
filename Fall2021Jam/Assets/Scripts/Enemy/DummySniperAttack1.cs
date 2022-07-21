@@ -21,6 +21,7 @@ public class DummySniperAttack1 : EnemyAttack
             GameObject newAttack = Instantiate(attackObject, transform.position + shootDirection * offsetDistance, Quaternion.Euler(0, 0, attackRotation - 90));
 
             newAttack.GetComponent<Rigidbody2D>().velocity = shootDirection * velocity;
+            newAttack.GetComponent<RangedProjectile>().initialPos = gameObject.transform.position;
             //put the attack on cooldown
             curCooldown = cooldown;
         }

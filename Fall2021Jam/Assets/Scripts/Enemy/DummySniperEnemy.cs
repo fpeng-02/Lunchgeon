@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DummyEnemy : Enemy
+public class DummySniperEnemy : Enemy
 {
     [SerializeField] private float cycleLength = 1.0f;
     [SerializeField] private float baseMoveSpeed = 0.5f;
@@ -22,6 +22,7 @@ public class DummyEnemy : Enemy
         SetState(State.Regular);
         countdown = -1;
         playerTransform = GameObject.Find("Player").transform;
+
         attackTimer = attackPause;
     }
 
@@ -36,7 +37,7 @@ public class DummyEnemy : Enemy
         }
         */
 
-        /*Move towards
+        //Move towards
         dirVect = playerTransform.position - this.transform.position;
         dirVect.z = 0;
         if (dirVect.magnitude < attackDistance)
@@ -44,15 +45,15 @@ public class DummyEnemy : Enemy
             SetState(State.Attacking);
         }
         dirVect = Vector3.Normalize(dirVect);
-        */
-        
-        
+
+
 
     }
     public void FixedUpdate()
     {
 
-        switch (GetState()){
+        switch (GetState())
+        {
             case State.Stunned:
                 break;
             case State.Knocked:
@@ -61,7 +62,7 @@ public class DummyEnemy : Enemy
             case State.Attacking:
 
                 //Code for attacking
-                
+
                 if (attackTimer < 0.5)
                 {
                     atk1.Attack();
@@ -75,11 +76,11 @@ public class DummyEnemy : Enemy
                 {
                     attackTimer = attackTimer - Time.deltaTime;
                 }
-                
-                
-                break; 
+
+
+                break;
             default:
-                //rb.MovePosition(rb.transform.position + dirVect * baseMoveSpeed * Time.deltaTime);
+                rb.MovePosition(rb.transform.position + dirVect * baseMoveSpeed * Time.deltaTime);
                 break;
         }
     }
